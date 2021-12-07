@@ -1,2 +1,2 @@
 # sbdeveloper90.github.io
-HUGO site &amp; GitHub Pages
+SBDeveloper90 GitHub Pages
