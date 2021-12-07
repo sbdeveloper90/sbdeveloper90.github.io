@@ -1,0 +1,26 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.coming-soon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    position: relative;
+}
+.coming-soon img{
+    opacity: 70%;
+}
+.coming-soon-title{
+    color: white;
+    position: absolute;
+    font-size: 5vw;
+    z-index: 3;
+}
