@@ -3,6 +3,24 @@
     margin: 0;
     box-sizing: border-box;
     font-family: 'Lato', sans-serif;
+}
+
+/*** STYLE FOR FOOTER ***/
+footer.footer{
+    min-height: 73px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+footer.footer .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/*** END STYLE FOR FOOTER ***/
+
+/*** STYLE FOR COMING SOON PAGE ***/
+.body-coming-soon{
     overflow-x: hidden;
     overflow-y: hidden;
 }
@@ -24,3 +42,4 @@
     font-size: 5vw;
     z-index: 3;
 }
+/*** END STYLE FOR COMING SOON PAGE ***/
