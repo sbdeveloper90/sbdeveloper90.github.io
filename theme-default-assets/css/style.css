@@ -1,3 +1,11 @@
+:root{
+    --color-html: #e54c25;
+    --color-css: #0b74b5;
+    --color-javascript: #dbb92c;
+    --color-php: #777bb3;
+    --color-python-1: #3775a9;
+    --color-python-2: #ffce3e;
+}
 *{
     padding: 0;
     margin: 0;
@@ -16,6 +24,9 @@ footer.footer .container{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+footer .copyright{
+    font-size: 14px;
 }
 /*** END STYLE FOR FOOTER ***/
 
@@ -43,3 +54,40 @@ footer.footer .container{
     z-index: 3;
 }
 /*** END STYLE FOR COMING SOON PAGE ***/
+
+/*** STYLE FOR PRETTY DOCS HOME ***/
+.item-html .item-inner{
+    border-top: 3px solid var(--color-html);
+}
+.item-html svg{
+    color: var(--color-html);
+}
+
+.item-css .item-inner{
+    border-top: 3px solid var(--color-css);
+}
+.item-css svg{
+    color: var(--color-css);
+}
+
+.item-javascript .item-inner{
+    border-top: 3px solid var(--color-javascript);
+}
+.item-javascript svg{
+    color: var(--color-javascript);
+}
+
+.item-php .item-inner{
+    border-top: 3px solid var(--color-php);
+}
+.item-php svg{
+    color: var(--color-php);
+}
+
+.item-python .item-inner{
+    border-top: 3px solid var(--color-python-1);
+}
+.item-python svg{
+    color: var(--color-python-1);
+}
+/*** END STYLE FOR PRETTY DOCS HOME ***/
