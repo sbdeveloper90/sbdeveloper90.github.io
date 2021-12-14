@@ -5,6 +5,7 @@
     --color-php: #777bb3;
     --color-python-1: #3775a9;
     --color-python-2: #ffce3e;
+    --color-bash: #3e474a;
 }
 *{
     padding: 0;
@@ -89,5 +90,12 @@ footer .copyright{
 }
 .item-python svg{
     color: var(--color-python-1);
+}
+
+.item-bash .item-inner{
+    border-top: 3px solid var(--color-bash);
+}
+.item-bash svg{
+    color: var(--color-bash);
 }
 /*** END STYLE FOR PRETTY DOCS HOME ***/
