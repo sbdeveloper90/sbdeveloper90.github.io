@@ -21,7 +21,8 @@
     <script defer src="fontawesome/js/all.js"></script>
     <!-- Global CSS -->
     <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">   
-    <!-- Plugins CSS -->    
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="plugins/prism/prism.css">    
     <link rel="stylesheet" href="plugins/elegant_font/css/style.css">    
     <!-- Theme CSS -->
     <link id="theme-style" rel="stylesheet" href="css/styles.css">
@@ -29,12 +30,234 @@
     <link rel="stylesheet" href="../theme-default-assets/css/style.css">
 
 </head>
-<body>
+<body class="body-css">
     <!-- Google Tag Manager (noscript) -->
     <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M37236S"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
     <!-- End Google Tag Manager (noscript) -->
 
+    <div class="page-wrapper">
+        <!--  HEADER  -->
+        <header id="header" class="header">
+            <div class="container">
+                <div class="branding">
+                    <h1 class="logo">
+                        <a href="../docs.html">
+                            <span aria-hidden="true" class="icon_documents_alt icon"></span>
+                            <span class="text-highlight">Pretty</span><span class="text-bold">Docs</span>
+                        </a>
+                    </h1>
+                </div>
+                
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="../docs.html">Home</a></li>
+                    <li class="breadcrumb-item active">CSS Docs</li>
+                </ol>
+                
+                <!-- <div class="top-search-box">
+	                 <form class="form-inline search-form justify-content-center" action="" method="get">
+			            <input type="text" placeholder="Search..." name="search" class="form-control search-input">
+			            <button type="submit" class="btn search-btn" value="Search"><i class="fas fa-search"></i></button>
+			        </form>
+                </div> -->
+            </div>
+        </header>
+        <!--  END HEADER  -->
+
+        <div class="doc-wrapper">
+            <div class="container">
+                <div id="doc-header" class="doc-header text-center">
+                    <h1 class="doc-title"><i class="icon fa fab fa-css3-alt"></i> CSS Docs</h1>
+                    <div class="meta"><i class="far fa-clock"></i> Last updated: Dic 14th, 2021</div>
+                </div>
+                <div class="doc-body row">
+                    <div class="doc-content col-md-9 col-12 order-1">
+                        <div class="content-inner">
+                            <!-- Download -->
+                            <section id="download-section" class="doc-section">
+                                <h2 class="section-title">Download</h2>
+                                <div class="section-block">
+                                    <p>Welcome to the mine useful documentation for daily work on web developer and computer programming. Thanks to PrettyDocs for theme template layout; download it at the page linked in the button below.</p>
+                                    <a href="https://themes.3rdwavemedia.com/bootstrap-templates/startup/prettydocs-free-bootstrap-theme-for-developers-and-startups/" class="btn btn-css" target="_blank"><i class="fas fa-download"></i> Download PrettyDocs</a>
+                                </div>
+                            </section>
+                            <!-- End Download -->
+
+                            <!-- PrismJS -->
+                            <section id="prismjs-section" class="doc-section">
+                                <h2 class="section-title">PrismJS</h2>
+                                <div class="section-block">
+                                    <p><a href="https://prismjs.com/" target="_blank">PrismJS</a> is used as the syntax highlighter here. You can <a href="https://prismjs.com/download.html" target="_blank">build your own version</a> via their website should you need to.</p>
+                                </div>
+                            </section>
+                            <!-- End PrismJS -->
+                            
+                            <!-- Media Queries -->
+                            <section id="media-queries-section" class="doc-section">
+                                <h2 class="section-title">Media Queries</h2>
+                                <div class="section-block">
+                                    <p>CSS media queries for responsive layouts.</p>
+                                    <pre><code class="language-css display-contents">
+@media screen and (max-width: 600px) {
+    body {
+        background-color: olive;
+    }
+}
+                                    </code></pre>
+                                    <h5 style="margin-top:37px;;">Media Queries Breakpoints</h5>
+                                    <p>max 320px<br>min 321px - max 480px<br>min 481px - max 600px<br>min 601px - max 768px<br>min 769px - max 992px<br>min 993px - max 1199px<br>min 1200px</p>
+                                </div>
+                            </section>
+                            <!-- End Media Queries -->
+
+                            <!-- Keyframes Animation -->
+                            <section id="keyframes-animation-section" class="doc-section">
+                                <h2 class="section-title">Keyframes Animation</h2>
+                                <div class="section-block">
+                                    <p>Keyframes animation with CSS.</p>
+                                    <pre><code class="language-css display-contents">
+.fade-in {
+    opacity: 1;
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+@keyframes fadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+                                    </code></pre>
+                                    <pre><code class="language-markup display-contents">
+&#x3C;h1 class=&#x22;fade-in&#x22;&#x3E;Fade In Text&#x3C;/h1&#x3E;
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Keyframes Animation -->
+
+                            <!-- Selection & First Letter -->
+                            <section id="selection-first-letter-section" class="doc-section">
+                                <h2 class="section-title">Selection & First Letter</h2>
+                                <div class="section-block">
+                                    <p>Paragraph style for text selection and first letter.</p>
+                                    <pre><code class="language-css display-contents">
+p::selection {
+    background: rgb(14, 51, 131);
+    color: orange;
+}
+
+p::first-letter {
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Selection & First Letter -->
+
+                            <!-- Box Shadow -->
+                            <section id="box-shadow-section" class="doc-section">
+                                <h2 class="section-title">Box Shadow</h2>
+                                <div class="section-block">
+                                    <p>Styling div with box shadow.</p>
+                                    <pre><code class="language-css display-contents">
+.box-shadow-div {
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2), 0px 40px 40px rgba(0, 0, 0, 0.5);
+} 
+                                    </code></pre>
+                                    <h5 style="margin-top:37px;">box-shadow: none | <i>h-offset v-offset blur spread color</i> | inset | initial | inherit;</h5>
+                                    <div class="table-responsive" style="margin-top:17px;">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr><th>Parameter</th><th>Description</th></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr><th scope="row">none</th><td>Default value. No shadow is displayed.</td></tr>
+                                                <tr><th scope="row"><i>h-offset</i></th><td>Required. The horizontal offset of the shadow. A positive value puts the shadow on the right side of the box, a negative value puts the shadow on the left side of the box.</td></tr>
+                                                <tr><th scope="row"><i>v-offset</i></th><td>Required. The vertical offset of the shadow. A positive value puts the shadow below the box, a negative value puts the shadow above the box.</td></tr>
+                                                <tr><th scope="row"><i>blur</i></th><td>Optional. The blur radius. The higher the number, the more blurred the shadow will be.</td></tr>
+                                                <tr><th scope="row"><i>spread</i></th><td>Optional. The spread radius. A positive value increases the size of the shadow, a negative value decreases the size of the shadow.</td></tr>
+                                                <tr><th scope="row"><i>color</i></th><td>Optional. The color of the shadow. The default value is the text color.</td></tr>
+                                                <tr><th scope="row">inset</th><td>Optional. Changes the shadow from an outer shadow (outset) to an inner shadow.</td></tr>
+                                                <tr><th scope="row">initial</th><td>Sets this property to its default value.</td></tr>
+                                                <tr><th scope="row">inherit</th><td>Inherits this property from its parent element.</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- End Box Shadow -->
+
+                            <!-- Linear Gradient Text -->
+                            <section id="linear-gradient-text-section" class="doc-section">
+                                <h2 class="section-title">Linear Gradient Text</h2>
+                                <div class="section-block">
+                                    <p>Linear gradient effect in text title.</p>
+                                    <pre><code class="language-css display-contents">
+h1 {
+    font-size: 7rem;
+    background: linear-gradient(to left, rgb(112, 101, 214), rgb(230, 106, 213));
+    background-clip: text;
+    text-fill-color: transparent;
+    display: inline;
+}
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Linear Gradient Text -->
+
+                            <!-- Sticky Navbar Style  -->
+                            <section id="sticky-navbar-style-section" class="doc-section">
+                                <h2 class="section-title">Sticky Navbar Style</h2>
+                                <div class="section-block">
+                                    <p>Change navbar CSS style onScroll event (navbar must have <i>position: sticky</i>).</p>
+                                    <pre><code class="language-css display-contents">
+.navbar-fixed-top.scrolled {
+    background-color: #ffffff !important;
+    transition: background-color 200ms liner;
+}
+                                    </code></pre>
+                                    <pre><code class="language-javascript display-contents">
+$(function() {
+    $(document).scroll(function() {
+        var $nav = $(&#x27;.navbar-fixed-top&#x27;);
+        $nav.toggleClass(&#x27;scrolled&#x27;, $(this).scrollTop &#x3E; $nav.height());
+    });
+});
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Sticky Navbar Style -->
+                        </div>
+                    </div>
+
+                    <!--  SIDEBAR MENU  -->
+                    <div class="doc-sidebar col-md-3 col-12 order-0 d-none d-md-flex">
+                        <div id="doc-nav" class="doc-nav">
+                            <nav id="doc-menu" class="nav doc-menu flex-column sticky">
+                                <a class="nav-link scrollto" href="#download-section">Download</a>
+                                <a class="nav-link scrollto" href="#prismjs-section">PrismJS</a>
+                                <a class="nav-link scrollto" href="#media-queries-section">Media Queries</a>
+                                <a class="nav-link scrollto" href="#keyframes-animation-section">Keyframes Animation</a>
+                                <a class="nav-link scrollto" href="#selection-first-letter-section">Selection & First Letter</a>
+                                <a class="nav-link scrollto" href="#box-shadow-section">Box Shadow</a>
+                                <a class="nav-link scrollto" href="#linear-gradient-text-section">Linear Gradient Text</a>
+                                <a class="nav-link scrollto" href="#sticky-navbar-style-section">Sticky Navbar Style</a>
+                            </nav>
+                        </div>
+                    </div>
+                    <!--  END SIDEBAR MENU  -->
+
+                </div><!-- end doc-body -->
+            </div><!-- end container -->
+        </div><!-- end doc-wrapper -->
+    </div><!-- end page-wrapper -->
 
     <!--  FOOTER  --> 
     <footer class="footer">
@@ -47,9 +270,10 @@
     
     <!-- Main Javascript -->          
     <script type="text/javascript" src="plugins/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="plugins/bootstrap/js/bootstrap.min.js"></script>     
+    <script type="text/javascript" src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="plugins/prism/prism.js"></script>
+    <script type="text/javascript" src="plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>     
     <script type="text/javascript" src="plugins/stickyfill/dist/stickyfill.min.js"></script>                                                                
     <script type="text/javascript" src="js/main.js"></script>
-
 </body>
 </html>

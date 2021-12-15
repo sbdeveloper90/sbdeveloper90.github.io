@@ -6,6 +6,7 @@
     --color-python-1: #3775a9;
     --color-python-2: #ffce3e;
     --color-bash: #3e474a;
+    --color-miscellaneous: #3aa7aa;
 }
 *{
     padding: 0;
@@ -98,4 +99,147 @@ footer .copyright{
 .item-bash svg{
     color: var(--color-bash);
 }
+
+.item-miscellaneous .item-inner{
+    border-top: 3px solid var(--color-miscellaneous);
+}
+.item-miscellaneous svg{
+    color: var(--color-miscellaneous);
+}
 /*** END STYLE FOR PRETTY DOCS HOME ***/
+
+/*** STYLE FOR PRETTY DOCS SINGLE PAGE ***/
+.display-contents{
+    display: contents;
+}
+
+/* HTML */
+.body-html header{
+    border-color: var(--color-html);
+}
+.body-html .branding .icon,
+.body-html .branding .text-highlight,
+.body-html .doc-menu .nav-link.active,
+.body-html .doc-header .doc-title,
+.body-html a{
+    color: var(--color-html);
+}
+.btn-html, a.bth-html{
+    background: var(--color-html);
+    border: 1px solid var(--color-html);
+    color: #ffffff !important;
+}
+/* end HTML */
+
+/* CSS */
+.body-css header{
+    border-color: var(--color-css);
+}
+.body-css .branding .icon,
+.body-css .branding .text-highlight,
+.body-css .doc-menu .nav-link.active,
+.body-css .doc-header .doc-title,
+.body-css a{
+    color: var(--color-css);
+}
+.btn-css, a.bth-css{
+    background: var(--color-css);
+    border: 1px solid var(--color-css);
+    color: #ffffff !important;
+}
+.body-css .table > thead > tr > th{
+    text-align: center;
+    border-bottom-color: var(--color-css);
+}
+/* end CSS */
+
+/* JAVASCRIPT */
+.body-javascript header{
+    border-color: var(--color-javascript);
+}
+.body-javascript .branding .icon,
+.body-javascript .branding .text-highlight,
+.body-javascript .doc-menu .nav-link.active,
+.body-javascript .doc-header .doc-title,
+.body-javascript a{
+    color: var(--color-javascript);
+}
+.btn-javascript, a.bth-javascript{
+    background: var(--color-javascript);
+    border: 1px solid var(--color-javascript);
+    color: #ffffff !important;
+}
+/* end JAVASCRIPT */
+
+/* PHP */
+.body-php header{
+    border-color: var(--color-php);
+}
+.body-php .branding .icon,
+.body-php .branding .text-highlight,
+.body-php .doc-menu .nav-link.active,
+.body-php .doc-header .doc-title,
+.body-php a{
+    color: var(--color-php);
+}
+.btn-php, a.bth-php{
+    background: var(--color-php);
+    border: 1px solid var(--color-php);
+    color: #ffffff !important;
+}
+/* end PHP */
+
+/* PYTHON */
+.body-python header{
+    border-color: var(--color-python-1);
+}
+.body-python .branding .icon,
+.body-python .branding .text-highlight,
+.body-python .doc-menu .nav-link.active,
+.body-python .doc-header .doc-title,
+.body-python a{
+    color: var(--color-python-1);
+}
+.btn-python, a.bth-python{
+    background: var(--color-python-1);
+    border: 1px solid var(--color-python-1);
+    color: #ffffff !important;
+}
+/* end PYTHON */
+
+/* BASH */
+.body-bash header{
+    border-color: var(--color-bash);
+}
+.body-bash .branding .icon,
+.body-bash .branding .text-highlight,
+.body-bash .doc-menu .nav-link.active,
+.body-bash .doc-header .doc-title,
+.body-bash a{
+    color: var(--color-bash);
+}
+.btn-bash, a.bth-bash{
+    background: var(--color-bash);
+    border: 1px solid var(--color-bash);
+    color: #ffffff !important;
+}
+/* end BASH */
+
+/* MISCELLANEOUS */
+.body-miscellaneous header{
+    border-color: var(--color-miscellaneous);
+}
+.body-miscellaneous .branding .icon,
+.body-miscellaneous .branding .text-highlight,
+.body-miscellaneous .doc-menu .nav-link.active,
+.body-miscellaneous .doc-header .doc-title,
+.body-miscellaneous a{
+    color: var(--color-miscellaneous);
+}
+.btn-miscellaneous, a.bth-miscellaneous{
+    background: var(--color-miscellaneous);
+    border: 1px solid var(--color-miscellaneous);
+    color: #ffffff !important;
+}
+/* end MISCELLANEOUS */
+/*** END STYLE FOR PRETTY DOCS SINGLE PAGE ***/
