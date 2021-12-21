@@ -91,7 +91,144 @@
                                 </div>
                             </section>
                             <!-- End PrismJS -->
+
+                            <!-- Scroll Display Function -->
+                            <section id="scroll-display-section" class="doc-section">
+                                <h2 class="section-title">Scroll Display Function</h2>
+                                <div class="section-block">
+                                    <p>Scroll Display Function: blocks only appear when you scroll to their position.</p>
+                                    <pre><code class="language-javascript display-contents">
+var vid = document.getElementById(&#x22;video-corporate&#x22;);
+function isScrolledIntoView(element) {
+    var elementTop = element.getBoundingCLientRect().top;
+    var elementBottom = element.getBoundingClientRect().bottom;
+    return (elementTop + 300) &#x3E;= 0 &#x26;&#x26; (elementBottom - 300) &#x3C;= window.innerHeight;
+}
+windows.addEventListener(&#x22;scroll&#x22;, function() {
+    if (isScrolledIntoView(vid)) {
+        vid.play();
+    }
+    else {
+        vid.pause();
+    }
+});
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Scroll Display Function -->
+
+                            <!-- Javascript Add Class -->
+                            <section id="add-class-section" class="doc-section">
+                                <h2 class="section-title">Add CSS Class</h2>
+                                <div class="section-block">
+                                    <p>Add CSS class with javascript.</p>
+                                    <pre><code class="language-javascript display-contents">
+$(&#x27;#image&#x27;).click(function() {
+    $(&#x27;#text&#x27;).css({
+        &#x27;background-color&#x27;: &#x27;red&#x27;,
+        &#x27;color&#x27;: &#x27;white&#x27;,
+        &#x27;font-size&#x27;: &#x27;44px&#x27;
+    });
+});
+                                    </code></pre>
+                                    <p style="margin-top:37px;">A more efficient method is to put those styles into a class, and then add that class onclick, like this:</p>
+                                    <pre><code class="language-javascript display-contents">
+$(&#x27;#image&#x27;).click(function() {
+    $(&#x27;#text&#x27;).addClass(&#x27;myClass&#x27;);
+});
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Javascript Add Class -->
                             
+                            <!-- Array to Table -->
+                            <section id="array-table-section" class="doc-section">
+                                <h2 class="section-title">Array to Table</h2>
+                                <div class="section-block">
+                                    <p>Generate tabble from javascript array.</p>
+                                    <h5>Javascript Solution</h5>
+                                    <pre><code class="language-javascript display-contents">
+var rows = [{
+    name: &#x27;Jhon&#x27;,
+    age: 20,
+    email: &#x27;jhon@gmail.com&#x27;
+}, {
+    name: &#x27;Jack&#x27;,
+    age: 50,
+    email: &#x27;jack@gmail.com&#x27;
+}, {
+    name: &#x27;Jim&#x27;,
+    age: 35,
+    email: &#x27;jim@gmail.com&#x27;
+}];
+
+var html = &#x27;&#x3C;tr border=&#x22;1|1&#x22;&#x3E;&#x27;;
+for (let i = 0; i &#x3C; rows.length; i++) {
+    html += &#x27;&#x3C;tr&#x3E;&#x27;;
+    html += &#x27;&#x3C;td&#x3E;&#x27; + rows[i].name + &#x27;&#x3C;/td&#x3E;&#x27;;
+    html += &#x27;&#x3C;td&#x3E;&#x27; + rows[i].age + &#x27;&#x3C;/td&#x3E;&#x27;;
+    html += &#x27;&#x3C;td&#x3E;&#x27; + rows[i].email + &#x27;&#x3C;/td&#x3E;&#x27;;
+    html += &#x27;&#x3C;/tr&#x3E;&#x27;;
+}
+html += &#x27;&#x3C;/table&#x3E;&#x27;;
+document.getElementById(&#x27;box&#x27;).innerHTML = html;
+                                    </code></pre>
+                                    <h5 style="margin-top:37px;">jQuery Solution</h5>
+                                    <pre><code class="language-javascript display-contents">
+var rows = [{
+    name: &#x27;Jhon&#x27;,
+    age: 20,
+    email: &#x27;jhon@gmail.com&#x27;
+}, {
+    name: &#x27;Jack&#x27;,
+    age: 50,
+    email: &#x27;jack@gmail.com&#x27;
+}, {
+    name: &#x27;Jim&#x27;,
+    age: 35,
+    email: &#x27;jim@gmail.com&#x27;
+}];
+
+$(document).ready(function() {
+    var html = &#x27;&#x3C;tr border=&#x22;1|1&#x22;&#x3E;&#x27;;
+    for (let i = 0; i &#x3C; rows.length; i++) {
+        html += &#x27;&#x3C;tr&#x3E;&#x27;;
+        html += &#x27;&#x3C;td&#x3E;&#x27; + rows[i].name + &#x27;&#x3C;/td&#x3E;&#x27;;
+        html += &#x27;&#x3C;td&#x3E;&#x27; + rows[i].age + &#x27;&#x3C;/td&#x3E;&#x27;;
+        html += &#x27;&#x3C;td&#x3E;&#x27; + rows[i].email + &#x27;&#x3C;/td&#x3E;&#x27;;
+        html += &#x27;&#x3C;/tr&#x3E;&#x27;;
+    }
+    html += &#x27;&#x3C;/table&#x3E;&#x27;;
+    $(&#x27;box&#x27;).html(html);
+});
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Array to Table -->
+
+                            <!-- Ready vs Load -->
+                            <section id="ready-load-section" class="doc-section">
+                                <h2 class="section-title">Ready vs Load</h2>
+                                <div class="section-block">
+                                    <h5>document.ready</h5>
+                                    <p><i>document.ready</i> will execute right after the HTML document is loded properly, and the DOM is ready.</p>
+                                    <pre><code class="language-javascript display-contents">
+$(document).ready(function() {
+    // executes when HTML-Document is loaded and DOM is ready
+    alert(&#x22;(document).ready was called - document is ready!&#x22;);
+});
+                                    </code></pre>
+                                    <h5 style="margin-top:37px;">window.load</h5>
+                                    <p><i>window.load</i> will wait for the page to be fully loaded, this includes inner iframes, images, etc.</p>
+                                    <pre><code class="language-javascript display-contents">
+$(window).load(function() {
+    // executes when complete page is fully loaded, including all frames, objects and images
+    alert(&#x22;(window).load was called - window is loaded!&#x22;);
+});
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Ready vs Load -->
                         </div>
                     </div>
 
@@ -101,6 +238,10 @@
                             <nav id="doc-menu" class="nav doc-menu flex-column sticky">
                                 <a class="nav-link scrollto" href="#download-section">Download</a>
                                 <a class="nav-link scrollto" href="#prismjs-section">PrismJS</a>
+                                <a class="nav-link scrollto" href="#scroll-display-section">Scroll Display Function</a>
+                                <a class="nav-link scrollto" href="#add-class-section">Add CSS Class</a>
+                                <a class="nav-link scrollto" href="#array-table-section">Array to Table</a>
+                                <a class="nav-link scrollto" href="#ready-load-section">Ready vs Load</a>
                             </nav>
                         </div>
                     </div>
