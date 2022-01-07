@@ -121,7 +121,9 @@ footer .copyright{
 .body-html .branding .text-highlight,
 .body-html .doc-menu .nav-link.active,
 .body-html .doc-header .doc-title,
-.body-html a{
+.body-html a,
+.body-html h1,
+.body-html h2{
     color: var(--color-html);
 }
 .btn-html, a.bth-html{
@@ -139,7 +141,9 @@ footer .copyright{
 .body-css .branding .text-highlight,
 .body-css .doc-menu .nav-link.active,
 .body-css .doc-header .doc-title,
-.body-css a{
+.body-css a,
+.body-css h1,
+.body-css h2{
     color: var(--color-css);
 }
 .btn-css, a.bth-css{
@@ -161,7 +165,9 @@ footer .copyright{
 .body-javascript .branding .text-highlight,
 .body-javascript .doc-menu .nav-link.active,
 .body-javascript .doc-header .doc-title,
-.body-javascript a{
+.body-javascript a,
+.body-javascript h1,
+.body-javascript h2{
     color: var(--color-javascript);
 }
 .btn-javascript, a.bth-javascript{
@@ -179,7 +185,9 @@ footer .copyright{
 .body-php .branding .text-highlight,
 .body-php .doc-menu .nav-link.active,
 .body-php .doc-header .doc-title,
-.body-php a{
+.body-php a,
+.body-php h1,
+.body-php h2{
     color: var(--color-php);
 }
 .btn-php, a.bth-php{
@@ -197,7 +205,9 @@ footer .copyright{
 .body-python .branding .text-highlight,
 .body-python .doc-menu .nav-link.active,
 .body-python .doc-header .doc-title,
-.body-python a{
+.body-python a,
+.body-python h1,
+.body-python h2{
     color: var(--color-python-1);
 }
 .btn-python, a.bth-python{
@@ -215,7 +225,9 @@ footer .copyright{
 .body-bash .branding .text-highlight,
 .body-bash .doc-menu .nav-link.active,
 .body-bash .doc-header .doc-title,
-.body-bash a{
+.body-bash a,
+.body-bash h1,
+.body-bash h2{
     color: var(--color-bash);
 }
 .btn-bash, a.bth-bash{
@@ -233,7 +245,10 @@ footer .copyright{
 .body-miscellaneous .branding .text-highlight,
 .body-miscellaneous .doc-menu .nav-link.active,
 .body-miscellaneous .doc-header .doc-title,
-.body-miscellaneous a{
+.body-miscellaneous a,
+.body-miscellaneous h1,
+.body-miscellaneous h2,
+.body-miscellaneous h3{
     color: var(--color-miscellaneous);
 }
 .btn-miscellaneous, a.bth-miscellaneous{

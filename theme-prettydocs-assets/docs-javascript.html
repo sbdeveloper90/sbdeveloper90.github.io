@@ -229,6 +229,33 @@ $(window).load(function() {
                                 </div>
                             </section>
                             <!-- End Ready vs Load -->
+
+                            <!-- User-Agent Localization -->
+                            <section id="user-localization-section" class="doc-section">
+                                <h2 class="section-title">User-Agent Localization</h2>
+                                <div class="section-block">
+                                    <p>An IP address lookup is a way to get the location of websiate visitors. We usually use public IP lookup services/APIs for this solution. Some of this are paid services and some are free.</p>
+                                    <p>Examples include <b>IP Geolocation API</b>, <b>IPinfo</b> and <b>GEOIP DB</b>. They provide the data in various formats as well, such as JSON, XML and CSV.</p>
+                                    <p>We'll be using IP Geolocation API for this example.</p>
+                                    <pre><code class="language-javascript display-contents">
+function ipLookUp() {
+    $.ajax(&#x27;http://ip-api.com/json&#x27;)
+    .then(
+        function success(response) {
+            console.log(&#x22;User\&#x27;s Location Data is &#x22;, response);
+            console.log(&#x22;User\&#x27;s  Country&#x22;, response.country);
+        },
+        function fail(data, status) {
+            cnsole.log(&#x22;Request failed. Return status of &#x22;, status);
+        }
+    );
+}
+
+ipLookUp();
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End User-Agent Localization -->
                         </div>
                     </div>
 
@@ -242,6 +269,7 @@ $(window).load(function() {
                                 <a class="nav-link scrollto" href="#add-class-section">Add CSS Class</a>
                                 <a class="nav-link scrollto" href="#array-table-section">Array to Table</a>
                                 <a class="nav-link scrollto" href="#ready-load-section">Ready vs Load</a>
+                                <a class="nav-link scrollto" href="#user-localization-section">User-Agent Localization</a>
                             </nav>
                         </div>
                     </div>

@@ -92,6 +92,35 @@
                             </section>
                             <!-- End PrismJS -->
                             
+                            <!-- Wordpress -->
+                            <section id="wordpress-section" class="doc-section">
+                                <h2 class="section-title">Wordpress</h2>
+                                <div id="autoremove-wordpress-block" class="section-block">
+                                    <h3 class="block-title">Disable Wordpress Autoremove</h3>
+                                    <p>Insert the following piece of code in Wordpress Theme <i>functions.php</i> file for disabling autoremove trash items (page, post, portfolio) after 30 days (default option).</p>
+                                    <pre><code class="language-php display-contents">
+function wpb_remove_schedule_delete() {
+    remove_action( &#x27;wp_scheduled_delete&#x27;, &#x27;wp_scheduled_delete&#x27; );
+}
+add_action( &#x27;init&#x27;, &#x27;wpb_remove_schedule_delete&#x27; );
+                                    </code></pre>
+                                </div>
+
+                                <div id="svg-wordpress-block" class="section-block">
+                                    <h3 class="block-title">Upload SVGs in Wordpress Media Library</h3>
+                                    <p>Insert the following piece of code in Wordpress Theme <i>functions.php</i> file for enabling SVGs upload in Wordpress Media Library.</p>
+                                    <pre><code class="language-php display-contents">
+    function add_file_types_to_uploads($file_types) {
+        $new_filetypes = array();
+        $new_filetypes[&#x27;svg&#x27;] = &#x27;image/svg+xml&#x27;;
+        $file_types = array_merge($file_types, $new_filetypes );
+        return $file_types;
+    }
+    add_filter(&#x27;upload_mimes&#x27;, &#x27;add_file_types_to_uploads&#x27;);
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Wordpress -->
                         </div>
                     </div>
 
@@ -101,6 +130,11 @@
                             <nav id="doc-menu" class="nav doc-menu flex-column sticky">
                                 <a class="nav-link scrollto" href="#download-section">Download</a>
                                 <a class="nav-link scrollto" href="#prismjs-section">PrismJS</a>
+                                <a class="nav-link scrollto" href="#wordpress-section">Wordpress</a>
+                                <nav class="doc-sub-menu nav flex-column">
+                                    <a class="nav-link scrollto" href="#autoremove-wordpress-block">Disable Autoremove</a>
+                                    <a class="nav-link scrollto" href="#svg-wordpress-block">Upload SVG</a>
+                                </nav>
                             </nav>
                         </div>
                     </div>

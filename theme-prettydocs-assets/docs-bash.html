@@ -91,7 +91,217 @@
                                 </div>
                             </section>
                             <!-- End PrismJS -->
+
+                            <!-- Boot Script Linux -->
+                            <section id="boot-script-section" class="doc-section">
+                                <h2 class="section-title">Boot Script Linux</h2>
+                                <div class="section-block">
+                                    <h5>Using init.d</h5>
+                                    <p>In the script you put in <i>/etc/init.d</i> you have to set it executable and create a symlink to <i>/etc/rc.d/</i>:</p>
+                                    <pre><code class="language-bash display-contents">
+chmod +x /etc/init.d/my-script.sh
+
+
+ln -s /etc/init.d/my-script.sh /etc/rc.d/
+                                    </code></pre>
+                                    <p>Please note that this wil not work as the script have to be LSB compliant (provide, at least, the following actions: start, stop restart, force-reload and status).</p>
+                                    <h5 style="margin-top:37px;">Using systemd</h5>
+                                    <p>File: /etc/systemd/system/my-startup.service</p>
+                                    <pre><code class="language-bash display-contents">
+[Unit]
+Description=My Startup
+
+[Service]
+ExecStart=/usr/local/sbin/my-script.sh
+
+[Install]
+WantedBy=multiuser.target
+                                    </code></pre>
+                                    <pre><code class="language-bash display-contents">
+<span style="color:lightgreen;">linuxspot@linuxspot</span>:~$ sudo nano /etc/systemd/system/my-startup.service
+<span style="color:lightgreen;">linuxspot@linuxspot</span>:~$ systemctl status my-startup.service
+&#9675; my-startup.service - My Startup
+    Loaded: loaded (/etc/systemd/system/my-startup.service; disabled; vendor preset: enabled)
+    Active: inactive (dead)
+
+Feb 06 19:35:08 linuxspot systemd[1]: Started My Startup.
+<span style="color:lightgreen;">linuxspot@linuxspot</span>:~$ sudo systemctl enable my-startup.service
+Created symlink /etc/systemd/system/multi-user.target.wants/my-startup.service &#8680; /etc/systemd/system/my-startup.service
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Boot Script Linux -->
                             
+                            <!-- Public IP -->
+                            <section id="public-ip-section" class="doc-section">
+                                <h2 class="section-title">Public IP</h2>
+                                <div class="section-block">
+                                    <h5>Using dig command (Unix only)</h5>
+                                    <ol style="margin-left:5%;">
+                                        <li>Open the Terminal application.</li>
+                                        <li style="margin-top:11px;">
+                                            Type the following dig (domain information groper) command on a Linux, OS X, or Unix-like operating systems to see public IP address assigned by the ISP:
+                                            <pre><code class="language-bash display-contents">
+dig +short myip.opendns.com @resolver1.opendns.com
+                                            </code></pre>
+                                            Or:
+                                            <pre><code class="language-bash display-contents">
+dig TXT +short o-o.myaddr.l.google.com @ns1.google.com
+                                            </code></pre>
+                                        </li>
+                                        <li style="margin-top:11px;">You should see your IP address on screen. This is the fastest way to find out your IP address without using 3rd party site.</li>
+                                    </ol>
+                                    <h5 style="margin-top:37px;">Using 3rd party web-sites</h5>
+                                    <p>Please note that I do not recommend following curl/wget method due to security reasons. You have been warned.</p>
+                                    <ol style="margin-left:5%;">
+                                        <li>Open the Terminal application.</li>
+                                        <li style="margin-top:11px;">
+                                            Type the following curl command to see public IP address assigned by the ISP:
+                                            <pre><code class="language-bash display-contents">
+curl checkip.amazonaws.com
+                                            </code></pre>
+                                            Or:
+                                            <pre><code class="language-bash display-contents">
+curl ifconfig.me
+                                            </code></pre>
+                                        </li>
+                                        <li style="margin-top:11px;">You should see your IP address on screen.</li>
+                                    </ol>
+                                </div>
+                            </section>
+                            <!-- End Public IP -->
+
+                            <!-- Static IP Linux -->
+                            <section id="static-ip-section" class="doc-section">
+                                <h2 class="section-title">Static IP Linux</h2>
+                                <div class="section-block">
+                                    <h5>Using NETPLAN</h5>
+                                    <p>Here’s the replacement for editing <i>/etc/networking/*</i> in the old system. The whole system now uses YAML configuration files under <i>/etc/netplan</i>, and then the <a href="https://netplan.io/" target="_blank">netplan</a> command applies those configurations to the system.</p>
+                                    <pre><code class="language-bash display-contents">
+vi /etc/netplan/*.yaml
+                                    </code></pre>
+                                    <pre><code class="language-vim display-contents">
+network:
+    version: 2
+    ethernets:
+        eth0:
+            dhcp4: true
+            optional: true
+            # addresses: [192.168.1.101/24]
+            # gateway4: 192.168.1.1
+            # nameservers:
+            #   addresses: [8.8.8.8, 1.1.1.1]
+    wifis:
+        wlan0:
+            dhcp4: false
+            dhcp6: false
+            addresses: [192.168.1.101/24]
+            gateway4: 192.168.1.1
+            nameservers:
+                addresses: [8.8.8.8, 1.1.1.1]
+            access-points:
+                "This is Access Point SSID":
+                    password: "secret"
+                                    </code></pre>
+                                    <pre><code class="language-bash display-contents">
+netplan apply
+                                    </code></pre>
+                                    <p>So now (whether you’re running an older system or a new one) you should now have a static IP address!</p>
+                                    <h5 style="margin-top:37px;">Using Network Interfaces</h5>
+                                    <p>Assign Static IP Address to <i>eth0</i> interface editing configuration file <i>/etc/network/interfaces</i> to make permanent changes as shown below:</p>
+                                    <pre><code class="language-vim display-contents">
+auto eth0
+iface eth0 inet static
+address 192.168.1.101
+netmask 255.255.255.0
+gateway 192.168.1.1
+                                    </code></pre>
+                                    <p>Next, restart network services after entering all the details using the following command:</p>
+                                    <pre><code class="language-bash display-contents">
+systemctl restart NetworkManager.service
+
+# Or
+
+/etc/init.d/networking restart
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Static IP Linux -->
+
+                            <!-- Postfix Linux & Gmail SMTP -->
+                            <section id="postfix-gmail-section" class="doc-section">
+                                <h2 class="section-title">Postfix Linux &  Gmail SMTP</h2>
+                                <div class="section-block">
+                                    <p>Configuring POSTFIX on Linux and Gmail SMTP for sending mail from command line.</p>
+                                    <ol style="margin-left:5%;">
+                                        <li>
+                                            Let's start with installing Postfix, Mailutils and a series of libraries:
+                                            <pre><code class="language-bash display-contents">
+sudo apt update
+sudo apt upgrade
+sudo apt install postfix mailutils libsasl2-2 libsasl2-modules
+                                            </code></pre>
+                                            <ul style="margin-left:5%;">
+                                                <li>as <b>General Type of Mail Configuration</b> we'll choose <i>SATELLITE</i></li>
+                                                <li style="margin-top:11px;">as <b>System Mail Name</b> we can accept the proposed one or choose one not your domain</li>
+                                                <li style="margin-top:11px;">as <b>SMTP RELAY HOST</b> we'll put <i>smtp.gmail.com:587</i></li>
+                                            </ul>
+                                        </li>
+                                        <li style="margin-top:11px;">
+                                            After the installation we must go to configure the SASL authentication part. With a text editor we will edit the <i>/etc/postfix/main.cf</i> Postfix file. Specifically at the bottom of the file we will add the following lines:
+                                            <pre><code class="language-vim display-contents">
+smtp_use_tls = yes
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_password
+smtp_sasl_security_options = noanonymous
+smtp_sasl_tls_security_options = noanonymous
+                                            </code></pre>
+                                            Now we will have to create the file where to put the Gmail SMTP access password. We create the <i>/etc/postfix/sasl/sasl_password</i> file inside which we will put a single row:
+                                            <pre><code class="language-vim display-contents">
+smtp.google.com username:password
+                                            </code></pre>
+                                            We create the lookup table db from postfix itself:
+                                            <pre><code class="language-vim display-contents">
+postmap /etc/postfix/sasl/sasl_password
+                                            </code></pre>
+                                        </li>
+                                        <li style="margin-top:11px;">
+                                            As they are sensitive data, although they will be used encrypted, the file could be read, so let's make sure that only the users root and postfix can handle it:
+                                            <pre><code class="language-bash display-contents">
+chown -R root:postfix /etc/postfix/sasl
+chmod 750 /etc/postfix/sasl
+chmod 640 /etc/postfix/sasl/sasl_password*
+                                            </code></pre>
+                                        </li>
+                                        <li style="margin-top:11px;">
+                                            We restart the POSTFIX service to apply all the changes:
+                                            <pre><code class="language-bash display-contents">
+sudo service postfix restart
+                                            </code></pre>
+                                        </li>
+                                        <li style="margin-top:11px;">
+                                            At this point we can send an email from our system to verify the proper functioning:
+                                            <pre><code class="language-bash display-contents">
+echo "send test mail from command line" | mail "sending test" recipient@example.com
+                                            </code></pre>
+                                            Any problems can be analyzed in <i>/var/log/mail.log</i> and <i>/var/log/mail.err</i>.
+                                        </li>
+                                    </ol>
+                                </div>
+                            </section>
+                            <!-- End Postfix Linux & Gmail SMTP -->
+
+                            <!-- WGET Download Site -->
+                            <section id="wget-section" class="doc-section">
+                                <h2 class="section-title">WGET Download Site</h2>
+                                <div class="section-block">
+                                    <p>Web site full download with WGET command.</p>
+                                    <pre><code class="language-bash display-contents">
+wget --recursive --no-clobber --page-requisites --html-extension --convert-links --restrict-filenames=windows --domains mysite.com --no-parent www.mysite.com
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End WGET Download Site -->
                         </div>
                     </div>
 
@@ -101,6 +311,11 @@
                             <nav id="doc-menu" class="nav doc-menu flex-column sticky">
                                 <a class="nav-link scrollto" href="#download-section">Download</a>
                                 <a class="nav-link scrollto" href="#prismjs-section">PrismJS</a>
+                                <a class="nav-link scrollto" href="#boot-script-section">Boot Script Linux</a>
+                                <a class="nav-link scrollto" href="#public-ip-section">Public IP</a>
+                                <a class="nav-link scrollto" href="#static-ip-section">Static IP Linux</a>
+                                <a class="nav-link scrollto" href="#postfix-gmail-section">Postfix Linux & SMTP Gmail</a>
+                                <a class="nav-link scrollto" href="#wget-section">WGET Download Site</a>
                             </nav>
                         </div>
                     </div>
