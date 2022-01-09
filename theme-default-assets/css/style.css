@@ -256,5 +256,9 @@ footer .copyright{
     border: 1px solid var(--color-miscellaneous);
     color: #ffffff !important;
 }
+#errors-wrike-block table td,
+#errors-wrike-block table th{
+    vertical-align: middle !important;
+}
 /* end MISCELLANEOUS */
 /*** END STYLE FOR PRETTY DOCS SINGLE PAGE ***/

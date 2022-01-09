@@ -2,11 +2,11 @@
 <html lang="it-IT">
 <head>
     <!-- Google Tag Manager -->
-    <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-M37236S');</script> -->
+    })(window,document,'script','dataLayer','GTM-M37236S');</script>
     <!-- End Google Tag Manager -->
 
     <title>SBDeveloper90 | Pretty Docs | Miscellaneous</title>
@@ -32,8 +32,8 @@
 </head>
 <body class="body-miscellaneous">
     <!-- Google Tag Manager (noscript) -->
-    <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M37236S"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M37236S"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
     <div class="page-wrapper">
@@ -110,17 +110,158 @@ add_action( &#x27;init&#x27;, &#x27;wpb_remove_schedule_delete&#x27; );
                                     <h3 class="block-title">Upload SVGs in Wordpress Media Library</h3>
                                     <p>Insert the following piece of code in Wordpress Theme <i>functions.php</i> file for enabling SVGs upload in Wordpress Media Library.</p>
                                     <pre><code class="language-php display-contents">
-    function add_file_types_to_uploads($file_types) {
-        $new_filetypes = array();
-        $new_filetypes[&#x27;svg&#x27;] = &#x27;image/svg+xml&#x27;;
-        $file_types = array_merge($file_types, $new_filetypes );
-        return $file_types;
-    }
-    add_filter(&#x27;upload_mimes&#x27;, &#x27;add_file_types_to_uploads&#x27;);
+function add_file_types_to_uploads($file_types) {
+    $new_filetypes = array();
+    $new_filetypes[&#x27;svg&#x27;] = &#x27;image/svg+xml&#x27;;
+    $file_types = array_merge($file_types, $new_filetypes );
+    return $file_types;
+}
+add_filter(&#x27;upload_mimes&#x27;, &#x27;add_file_types_to_uploads&#x27;);
                                     </code></pre>
                                 </div>
                             </section>
                             <!-- End Wordpress -->
+
+                            <!-- Wrike API -->
+                            <section id="wrike-section" class="doc-section">
+                                <h2 class="section-title">Wrike API</h2>
+                                <div id="token-wrike-block" class="section-block">
+                                    <h3 class="block-title">OAuth & Token</h3>
+                                    <p>All official and full references <a href="https://developers.wrike.com/oauth-20-authorization/" target="_blank">here</a>.</p>
+                                    <h5 class="block-title">Setup</h5>
+                                    <p>
+                                        Before you get started with OAuth 2.0 authorization, you’ll need to register and properly set up the Wrike API application. Each application is assigned a unique Client ID and Client Secret which will be used in the OAuth flow. You can find the client credentials of your application and manage other options on <a href="https://www.wrike.com/frontend/apps/index.html#/api" target="_blank">App Console</a>.
+                                        <img style="display:block;margin:11px auto;" src="../theme-default-assets/img/wrike-oauth.png" alt="Wrike OAuth">
+                                    </p>
+                                    <h5 class="block-title">OAuth flow</h5>
+                                    <p>
+                                        <img style="display:block;margin:11px auto;" src="../theme-default-assets/img/wrike-oauth-flow.png" alt="OAuth Flow">
+                                        <ol style="margin-left:5%;">
+                                            <li>
+                                                <b>Requesting authorization code</b><br>
+                                                To start the authorization process, the user should click on the link in your application that will direct him to the following URL:
+                                                <pre><code class="language-bash display-contents">
+https://login.wrike.com/oauth2/authorize/v4?client_id=&#x3C;client_id&#x3E;&#x26;response_type=code
+                                                </code></pre>
+                                            </li>
+                                            <li style="margin-top:11px;">
+                                                <b>Handling authorization code</b><br>
+                                                After entering a password and selecting an account the user is redirected to a consent page for confirmation.<br>
+                                                If the user grants access on the consent page, then they will be redirected to the redirect_uri with the code parameter set to the authorization code and state parameter (if one was included). Please note that the authorization code is only valid for 10 minutes.
+                                            </li>
+                                            <li style="margin-top:11px;">
+                                                <b>Exchanging authorization code for access token</b><br>
+                                                Access credentials are requested by executing POST request to a token URL with an authorization code.
+                                                <pre><code class="language-bash display-contents">
+POST https://login.wrike.com/oauth2/token
+  //Parameters:
+  client_id=&#x3C;client_id&#x3E;
+  client_secret=&#x3C;client_secret&#x3E;
+  grant_type=authorization_code
+  code=&#x3C;authorization_code&#x3E;
+                                                </code></pre>
+                                                All parameters here are mandatory.
+                                            </li>
+                                            <li style="margin-top:11px;">
+                                                <b>Using access token</b><br>
+                                                Every request to the API should be done using the HTTPS protocol with the access token, which should be passed in the authorization header (preferred option) or the access_token parameter. For all requests, you should be using the base URL which you built based on the "host" parameter passed to you on the previous step.<br>
+                                                Let’s assume that we want to obtain information about yourself. Thus we have to execute the following request:
+                                                <pre><code class="language-bash display-contents">
+curl -X GET -H &#x22;Authorization: bearer &#x22; https://www.wrike.com/api/v4/contacts?me=true
+                                                </code></pre>
+                                                Each access token is valid for one hour. After the access token has expired, the application should refresh it to continue.
+                                            </li>
+                                            <li style="margin-top:11px;">
+                                                <b>Refreshing access token</b><br>
+                                                The access token is refreshed by a POST request to a token URL with a refresh token. Please bear in mind that you initially get a pair of tokens by querying the <i>https://login.wrike.com/oauth2/token</i> endpoint, but to refresh the token you need to use the specific base URL, which you built based on the "host" parameter passed to you in the second step.
+                                                <pre><code class="language-bash display-contents">
+POST https://login.wrike.com/oauth2/token
+  //Parameters:
+  client_id=&#x3C;client_id&#x3E;
+  client_secret=&#x3C;client_secret&#x3E;
+  grant_type=refresh_token
+  refresh_token=&#x3C;refresh_token&#x3E;
+  scope=&#x3C;scope&#x3E;
+                                                </code></pre>
+                                            </li>
+                                        </ol>
+                                    </p>
+                                    <h5 class="block-title">Permanent token</h5>
+                                    <p>
+                                        Generally for production purposes, OAuth 2.0 is the prefered method of authorization in the Wrike API. However if you’d like to simply test the API features or create an application which is not intended to be used by multiple users, you can use an alternative approach, the permanent token.<br>
+                                        The permanent token is a normal token that never expires: you can obtain it once and then use it as long as you want without needing to refresh or re-authenticate. This means you can build standalone integrations without any web server to support the OAuth 2.0 authorization flow.<br>
+                                        To receive a permanent token you need to open your application on the App Console and click "Obtain token".
+                                        <img style="display:block;margin:11px auto;" src="../theme-default-assets/img/wrike-token.png" alt="Permanent Token">
+                                        But be careful! The permanent token allows applications to gain access to all data in a certain Wrike account on your behalf. Keep your permanent token private and revoke it when you no longer need it.
+                                    </p>
+                                </div>
+
+                                <div id="methods-wrike-block" class="section-block">
+                                    <h3 class="block-title">Methods</h3>
+                                    <p>
+                                        Explore <a href="https://developers.wrike.com/api/v4/tasks/" target="_blank">API methods</a> to get maximum value from your Wrike integration.<br>
+                                        Every response is in JSON format.
+                                    </p>
+                                </div>
+                                
+                                <div id="errors-wrike-block" class="section-block">
+                                    <h3 class="block-title">Errors</h3>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr><th>HTTP CODE</th><th>ERROR</th><th>DETAILS</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>400</td><td>invalid_request</td><td>Request HTTP type is invalid, request critical data is absent or malformed (e.g., no attachment body)</td></tr>
+                                            <tr><td>400</td><td>invalid_parameter</td><td>Request parameter name or value is invalid</td></tr>
+                                            <tr><td>400</td><td>parameter_required</td><td>Required parameter is absent</td></tr>
+                                            <tr><td>401</td><td>not_authorized</td><td>User is not authorized (authorization is invalid, malformed or expired)</td></tr>
+                                            <tr><td>403</td><td>access_forbidden</td><td>Access to requested entity is denied for user</td></tr>
+                                            <tr><td>403</td><td>not_allowed</td><td>Requested action is not allowed due to license/quota limitations, etc.</td></tr>
+                                            <tr><td>404</td><td>resource_not_found</td><td>Requested entity is not found</td></tr>
+                                            <tr><td>404</td><td>method_not_found</td><td>Requested API method does not exist</td></tr>
+                                            <tr><td>429</td><td>too_many_requests</td><td>IP or access token exceeded limit: 100 requests per minute</td></tr>
+                                            <tr><td>429</td><td>rate_limit_exceeded</td><td>Rate limit exceeded, try again later</td></tr>
+                                            <tr><td>500</td><td>server_error</td><td>Server side error</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                            <!-- End Wrike API -->
+
+                            <!-- MySQL -->
+                            <section id="mysql-section" class="doc-section">
+                                <h2 class="section-title">MySQL</h2>
+                                <div id="reset-autoincrement-mysql-block" class="section-block">
+                                    <h3 class="block-title">Reset Autoincrement</h3>
+                                    <pre><code class="language-sql display-contents">
+ALTER TABLE tablename AUTO_INCREMENT = 1
+                                    </code></pre>
+                                    For InnoDB you cannot set the <i>auto_increment</i> value lower o equal to the highest current index.
+                                </div>
+                            </section>
+                            <!-- End MySQL -->
+
+                            <!-- Web Hosting -->
+                            <section id="web-hosting-section" class="doc-section">
+                                <h2 class="section-title">Web Hosting</h2>
+                                <div id="htaccess-web-hosting-block" class="section-block">
+                                    <h3 class="block-title">.htaccess</h3>
+                                    <p>The .htaccess file can be used for redirecting to web pages following particular errors; or even to protect certain folders with passord (encrypted with MD5 on Apache).<br>Here are some examples:</p>
+                                    <pre><code class="language-vim display-contents">
+ErrorDocument 404 &#x22;path/to/page/error-404.html&#x22;
+                                    </code></pre>
+                                    <pre><code class="language-vim display-contents">
+AuthType Basic
+AuthName &#x22;Restricted Area&#x22;
+AuthUserFile &#x22;path/to/file/.htpasswd&#x22;
+Require valid-user
+                                    </code></pre>
+                                    <pre><code class="language-vim display-contents">
+test:$apr1$gbx5fvw6$gcTXN.nGIYPiJt4d9Gy57.
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Web Hosting -->
                         </div>
                     </div>
 
@@ -134,6 +275,20 @@ add_action( &#x27;init&#x27;, &#x27;wpb_remove_schedule_delete&#x27; );
                                 <nav class="doc-sub-menu nav flex-column">
                                     <a class="nav-link scrollto" href="#autoremove-wordpress-block">Disable Autoremove</a>
                                     <a class="nav-link scrollto" href="#svg-wordpress-block">Upload SVG</a>
+                                </nav>
+                                <a class="nav-link scrollto" href="#wrike-section">Wrike API</a>
+                                <nav class="doc-sub-menu nav flex-column">
+                                    <a class="nav-link scrollto" href="#token-wrike-block">OAuth & Token</a>
+                                    <a class="nav-link scrollto" href="#methods-wrike-block">Methods</a>
+                                    <a class="nav-link scrollto" href="#errors-wrike-block">Errors</a>
+                                </nav>
+                                <a class="nav-link scrollto" href="#mysql-section">MySQL</a>
+                                <nav class="doc-sub-menu nav flex-column">
+                                    <a class="nav-link scrollto" href="#reset-autoincrement-mysql-block">Reset Autoincrement</a>
+                                </nav>
+                                <a class="nav-link scrollto" href="#web-hosting-section">Web Hosting</a>
+                                <nav class="doc-sub-menu nav flex-column">
+                                    <a class="nav-link scrollto" href="#htaccess-web-hosting-block">.htaccess</a>
                                 </nav>
                             </nav>
                         </div>
