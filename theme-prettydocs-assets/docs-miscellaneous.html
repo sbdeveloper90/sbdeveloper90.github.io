@@ -53,13 +53,6 @@
                     <li class="breadcrumb-item"><a href="../docs.html">Home</a></li>
                     <li class="breadcrumb-item active">MISCELLANEOUS Docs</li>
                 </ol>
-                
-                <!-- <div class="top-search-box">
-	                 <form class="form-inline search-form justify-content-center" action="" method="get">
-			            <input type="text" placeholder="Search..." name="search" class="form-control search-input">
-			            <button type="submit" class="btn search-btn" value="Search"><i class="fas fa-search"></i></button>
-			        </form>
-                </div> -->
             </div>
         </header>
         <!--  END HEADER  -->
@@ -68,7 +61,7 @@
             <div class="container">
                 <div id="doc-header" class="doc-header text-center">
                     <h1 class="doc-title"><i class="icon fa fas fa-ellipsis-h"></i> MISCELLANEOUS Docs</h1>
-                    <div class="meta"><i class="far fa-clock"></i> Last updated: Dic 14th, 2021</div>
+                    <div class="meta"><i class="far fa-clock"></i> Last updated: Jan 20th, 2022</div>
                 </div>
                 <div class="doc-body row">
                     <div class="doc-content col-md-9 col-12 order-1">
@@ -113,11 +106,218 @@ add_action( &#x27;init&#x27;, &#x27;wpb_remove_schedule_delete&#x27; );
 function add_file_types_to_uploads($file_types) {
     $new_filetypes = array();
     $new_filetypes[&#x27;svg&#x27;] = &#x27;image/svg+xml&#x27;;
-    $file_types = array_merge($file_types, $new_filetypes );
+    $file_types = array_merge($file_types, $new_filetypes);
     return $file_types;
 }
 add_filter(&#x27;upload_mimes&#x27;, &#x27;add_file_types_to_uploads&#x27;);
                                     </code></pre>
+                                </div>
+
+                                <div id="shortcode-wordpress-block" class="section-block">
+                                    <h3 class="block-title">Custom Shortcode</h3>
+                                    <p>
+                                        WordPress shortcodes are used to reduce the amount of code you need to write and to simplify the usage of WordPress plugins, themes, and other functions. They behave like macros, when you insert a shortcode, it is replaced with a snippet of code. It could be anything.<br>When creating your own shortcodes, there are two things you need to do:
+                                        <ol style="margin-left:5%;">
+                                            <li><b>Create the shortcode handler function</b><br>A shortcode function is a function that takes optional parameters (attributes) and returns a result.</li>
+                                            <li style="margin-top:11px;"><b>Register the shortcode handler function</b><br>Use the built-in WordPress <i>add_shortcut</i> function to register custom shortcodes.</li>
+                                        </ol>
+                                    </p>
+                                    <h5 class="block-title">Preparing Wordpress for Custom Shortcode</h5>
+                                    <p>
+                                        Although it’s not required, it’s a good idea to keep your custom shortcodes in their own file. Alternatively, you may add them to your theme’s <i>functions.php</i> file.<br>
+                                        First, create a new file named <i>custom-shortcodes.php</i>, and save it inside the same folder as your theme’s <i>functions.php</i> file.<br>
+                                        Next, open the <i>functions.php</i> file, and add the following line of code:
+                                        <pre><code class="language-php display-contents">
+include(&#x27;custom-shortcodes.php&#x27;);
+                                        </code></pre>
+                                    </p>
+                                    <h5 class="block-title">Basic Shortcodes</h5>
+                                    <p>In this first example, we’re going to create a basic WordPress shortcode that inserts simple avatar image.</p>
+                                    <p>
+                                        The first step is to create the shortcode function. Inside the <i>custom-shortcodes.php</i> file, add the following block of code:
+                                        <pre><code class="language-php display-contents">
+function dotiavatar_function() {
+    return &#x27;&#x3C;img src=&#x22;http://mydomain.com/wp-content/uploads/avatar-simple.png&#x22; alt=&#x22;doti-avatar&#x22; width=&#x22;96&#x22; height=&#x22;96&#x22; class=&#x22;center-align&#x22; /&#x3E;&#x27;;
+}
+                                        </code></pre>
+                                    </p>
+                                    <p>In the code example above, the <i>dotiavatar_function</i> function returns a pre-determined image named <i>avatar-simple.png</i>.</p>
+                                    <p>
+                                        The next step is to register the shortcode with WordPress using the built-in function <i>add_shortcode</i>. Still inside <i>custom-shortcodes.php</i>, add the following line of code:
+                                        <pre><code class="language-php display-contents">
+add_shortcode(&#x27;dotiavatar&#x27;, &#x27;dotiavatar_function&#x27;);
+                                        </code></pre>
+                                    </p>
+                                    <p>
+                                        When you register a shortcode using the <i>add_shortcode</i> function, you pass in the shortcode tag ($tag) and the corresponding function ($func)/hook that will execute whenever the shortcut is used.<br>
+                                        In this case, the shortcut tag is <i>dotiavatar</i> and the hook is <i>dotiavatar_function</i>.
+                                    </p>
+                                    <p><b>Note</b>: When naming tags, use lowercase letters only, and do not use hyphens; underscores are acceptable.</p>
+                                    <h5 class="block-title">Using the Shortcodes</h5>
+                                    <p>
+                                        Now that you have the shortcode created and registered, it’s time to try it out! Whenever you want the DOTI avatar to appear inside the post content, you can use the shortcode instead:
+                                        <pre><code class="language-vim display-contents">
+[dotiavatar]
+                                        </code></pre>
+                                    </p>
+                                    <h5 class="block-title">Shortcodes with parameters (attributes)</h5>
+                                    <p>In the previous example, there wasn’t much room to change things up. Let’s say, instead of pushing a single image, we’d like to be able to set which image to use using a parameter. You can do that by adding some attributes ($atts).</p>
+                                    <p>
+                                        Once again, inside <i>custom-shortcodes.php</i>, add another function, like so:
+                                        <pre><code class="language-php display-contents">
+function dotirating_function( $atts = array() ) {
+
+    // set up default parameters
+    extract(shortcode_atts( array(&#x27;rating&#x27; =&#x3E; &#x27;5&#x27;), $atts) );
+    
+    return &#x27;&#x3C;img src=&#x22;http://mydomain.com/wp-content/uploads/$rating-star.png&#x22; alt=&#x22;doti-rating&#x22; width=&#x22;130&#x22; height=&#x22;188&#x22; class=&#x22;center-align&#x22; /&#x3E;&#x27;;
+}
+                                        </code></pre>
+                                    </p>
+                                    <p>The function above accepts a single parameter: <i>rating</i>. If a <i>rating</i> value is not passed, it uses a default string value of <i>5</i>. It does this by unwrapping the array of attributes using the built-in <i>shortcode_atts</i> function, and combining the default values with values that may have been passed into the function.</p>
+                                    <p>Don’t forget to register the shortcode, like above.</p>
+                                    <p>
+                                        With the shortcode function created, and the hook added, the shortcode is now ready to be used inside your post content:
+                                        <pre><code class="language-vim display-contents">
+[dotirating rating=3]   
+                                        </code></pre>
+                                        Alternatively, you can omit the <i>rating</i>, and just go with the default value.
+                                    </p>
+                                    <h5 class="block-title">A word about Widgets</h5>
+                                    <p>
+                                        By default, shortcodes are only supported in posts, pages, or custom post types; they are not supported in sidebar widgets. To add support for widgets, you need to add the following code to the <i>functions.php</i> file:
+                                        <pre><code class="language-php display-contents">
+add_filter( &#x27;widget_text&#x27;, &#x27;shortcode_unautop&#x27; );
+add_filter( &#x27;widget_text&#x27;, &#x27;do_shortcode&#x27; );
+                                        </code></pre>
+                                        Once you do that, you can use shortcodes in widgets, just like you do in posts/pages.
+                                    </p>
+                                </div>
+
+                                <div id="widget-wordpress-block" class="section-block">
+                                    <h3 class="block-title">Custom Widget</h3>
+                                    <p>By default, WordPress comes with a standard set of widgets that you can use with any WordPress theme.<br>WordPress also allows developers to create their own custom widgets.</p>
+                                    <p>WordPress comes with a built-in WordPress Widget class. Each new WordPress widget extends the WordPress widget class.<br>we will be focusing on the following methods:</p>
+                                    <ul style="margin-left:5%;">
+                                        <li><b>__construct()</b>: This is the part where we create the widget ID, title, and description.</li>
+                                        <li style="margin-top:11px;"><b>widget</b>: This is where we define the output generated by the widget.</li>
+                                        <li style="margin-top:11px;"><b>form</b>: This part of the code is where we create the form with widget options for backend.</li>
+                                        <li style="margin-top:11px;"><b>update</b>: This is the part where we save widget options in the database.</li>
+                                    </ul>
+                                    <pre><code class="language-php display-contents">
+// Creating the widget
+class wpb_widget extends WP_Widget {
+    function __construct() { 
+        parent::__construct(
+            // Base ID of your widget
+            &#x27;wpb_widget&#x27;,
+            // Widget name will appear in UI
+            __(&#x27;WPBeginner Widget&#x27;, &#x27;wpb_widget_domain&#x27;),
+            // Widget description
+            array( &#x27;description&#x27; =&#x3E; __( &#x27;Sample widget based on WPBeginner Tutorial&#x27;, &#x27;wpb_widget_domain&#x27; ), ) 
+        ); 
+    }
+
+    // Creating widget front-end
+    public function widget( $args, $istance ) {
+        $title = apply_filters( &#x27;widget_title&#x27;, $istance[&#x27;title&#x27;] );
+
+        // before and after widget arguments are defined by themes
+        echo $args[&#x27;before_widget&#x27;];
+        if ( ! empty( $title ) )
+            echo $args[&#x27;before_title&#x27;] . $title . $args[&#x27;after_title&#x27;];
+
+        // This is where you run the code and display the output
+        echo __( &#x27;Hello, World!&#x27;, &#x27;wpb_widget_domain&#x27; );
+        echo $args[&#x27;after_widget&#x27;];
+    }
+
+    // Widget Backend
+    public function form( $instance ) {
+        if ( isset( $instance[ &#x27;title&#x27; ] ) ) {
+            $title = $instance[ &#x27;title&#x27; ];
+        }
+        else {
+            $title = __( &#x27;New title&#x27;, &#x27;wpb_widget_domain&#x27; );
+        }
+        // Widget admin form
+        ?&#x3E;
+            &#x3C;p&#x3E; 
+                &#x3C;label for=&#x22;&#x3C;?php echo $this-&#x3E;get_field_id( &#x27;title&#x27; ); ?&#x3E;&#x22;&#x3E;&#x3C;?php _e( &#x27;Title:&#x27; ); ?&#x3E;&#x3C;/label&#x3E; &#x3C;input class=&#x22;widefat&#x22; id=&#x22;&#x3C;?php echo $this-&#x3E;get_field_id( &#x27;title&#x27; ); ?&#x3E;&#x22; name=&#x22;&#x3C;?php echo $this-&#x3E;get_field_name( &#x27;title&#x27; ); ?&#x3E;&#x22; type=&#x22;text&#x22; value=&#x22;&#x3C;?php echo esc_attr( $title ); ?&#x3E;&#x22; /&#x3E;
+            &#x3C;/p&#x3E;
+        &#x3C;?php
+    }
+
+    // Updating widget replacing old instances with new
+    public function update( $new_instance, $old_instance ) {
+        $instance = array();
+        $instance[&#x27;title&#x27;] = ( !empty( $new_instance[&#x27;title&#x27;] ) ) ? strip_tags( $new_instance[&#x27;title&#x27;] ) : &#x27;&#x27;;
+        return $instance;
+    }
+
+    // Class wpb_widget ends here
+}
+
+// Register and load the widget
+function wpb_load_widget() {
+    register_widget( &#x27;wpb_widget&#x27; );
+}
+add_action( &#x27;widgets_init&#x27;, &#x27;wpb_load_widget&#x27; );
+                                    </code></pre>
+                                    <p>After adding the code you need to head over to <b>Appearance &#xBB; Widgets</b> page. You will notice the new WPBeginner Widget in the list of available widgets. You need to drag and drop this widget to a sidebar.</p>
+                                </div>
+
+                                <div id="area-wordpress-block" class="section-block">
+                                    <h3 class="block-title">Custom Widget Area</h3>
+                                    <p>When creating your own shortcodes, there are three steps you need to follow: registering the widget area, inserting widgets, and showing the widget area on the website.</p>
+                                    <h5 class="block-title">Registering the widget area</h5>
+                                    <p>
+                                        The first step to adding widget areas to your WordPress website is the registration. Every widget area must be first registered using the <i>register_sidebar</i> function. This requires inserting a code which is similar to the one given below inside the <i>functions.php</i> file of your theme.
+                                        <pre><code class="language-php display-contents">
+function register_custom_widget_area() {
+    register_sidebar(
+        array(
+            &#x27;id&#x27; =&#x3E; &#x27;new-widget-area&#x27;,
+            &#x27;name&#x27; =&#x3E; esc_html__( &#x27;My new widget area&#x27;, &#x27;theme-domain&#x27; ),
+            &#x27;description&#x27; =&#x3E; esc_html__( &#x27;A new widget area made for testing purposes&#x27;, &#x27;theme-domain&#x27; ),
+            &#x27;before_widget&#x27; =&#x3E; &#x27;&#x3C;div id=&#x22;%1$s&#x22; class=&#x22;widget %2$s&#x22;&#x3E;&#x27;,
+            &#x27;after_widget&#x27; =&#x3E; &#x27;&#x3C;/div&#x3E;&#x27;,
+            &#x27;before_title&#x27; =&#x3E; &#x27;&#x3C;div class=&#x22;widget-title-holder&#x22;&#x3E;&#x3C;h3 class=&#x22;widget-title&#x22;&#x3E;&#x27;,
+            &#x27;after_title&#x27; =&#x3E; &#x27;&#x3C;/h3&#x3E;&#x3C;/div&#x3E;&#x27;
+        )
+    );
+}
+add_action( &#x27;widget_init&#x27;, &#x27;register_custom_widget_area&#x27; );
+                                        </code></pre>
+                                        <ul style="margin-left:5%;">
+                                            <li><b>id</b>: a unique identifier of a widget area</li>
+                                            <li style="margin-top:11px;"><b>name</b>: the name of the widget area, which will be displayed in Appearance &#xBB; Widgets</li>
+                                            <li style="margin-top:11px;"><b>description</b>: a description of the widget area that is displayed within it and visible in Appearance &#xBB; Widgets</li>
+                                            <li style="margin-top:11px;"><b>class</b>: additional CSS class that can be assigned to the widget area, which will help you customize the widget area with CSS later</li>
+                                            <li style="margin-top:11px;"><b>before_widget</b>: a block of HTML code added before every widget that belongs to the widget area</li>
+                                            <li style="margin-top:11px;"><b>after_widget</b>: a block of HTML code added after every widget that belongs to the widget area</li>
+                                            <li style="margin-top:11px;"><b>before_title</b>: a block of HTML code added before the widget area title when it is displayed</li>
+                                            <li style="margin-top:11px;"><b>after_title</b>: a block of HTML code added after the widget area title when it is displayed</li>
+                                        </ul>
+                                    </p>
+                                    <h5 class="block-title">Inserting the widgets inside the widget area</h5>
+                                    <p>After registration, the second step should be very familiar to any WordPress user. It involves dragging and dropping widgets inside the newly created widget area. To do this, navigate to <b>Appearance &#xBB; Widgets</b>, locate the widget area you created and add the widgets you want to it.</p>
+                                    <h5 class="block-title">Showing the widget area on the website</h5>
+                                    <p>
+                                        However, even after you register the widget area and make sure it isn’t empty, it still won’t automatically show on your site. For it to appear, you need to add additional code that “calls” the specific sidebar, i.e. widget area, that you created. The code you need to insert is similar to this one:
+                                        <pre><code class="language-php display-contents">
+&#x3C;?php if ( is_active_sidebar( &#x27;new-widget-area&#x27; ) ) : ?&#x3E;
+    &#x3C;div id=&#x22;secondary-sidebar&#x22; class=&#x22;new-widget-area&#x22;&#x3E;
+        &#x3C;?php dynamic_sidebar( &#x27;new-widget-area&#x27; ); ?&#x3E;
+    &#x3C;/div&#x3E;
+&#x3C;?php endif; ?&#x3E;
+                                        </code></pre>
+                                        You need to place this code inside one of the <b>theme’s template files</b>. Which file you use depends entirely on where you wish your new widget area to show. The most common choices are <b>sidebar.php</b>, <b>header.php</b>, or <b>footer.php</b> files.
+                                    </p>
+                                    <p>
+                                        The function dynamic_sidebar is the one responsible for showing the widget area. <b>It accepts a previously registered name or id of a widget area as valid parameters</b>. Wrapping the widget area with a div tag isn’t necessary, but we recommend it as it makes the HTML of your pages more structured.<br>
+                                        Finally, by further wrapping the code with the is_active_sidebar conditional tag, we are making sure <b>the widget area is only shown if it has widgets inserted</b>.
+                                    </p>
                                 </div>
                             </section>
                             <!-- End Wordpress -->
@@ -236,7 +436,7 @@ POST https://login.wrike.com/oauth2/token
                                     <pre><code class="language-sql display-contents">
 ALTER TABLE tablename AUTO_INCREMENT = 1
                                     </code></pre>
-                                    For InnoDB you cannot set the <i>auto_increment</i> value lower o equal to the highest current index.
+                                    <p>For InnoDB you cannot set the <i>auto_increment</i> value lower o equal to the highest current index.</p>
                                 </div>
                             </section>
                             <!-- End MySQL -->
@@ -275,6 +475,9 @@ test:$apr1$gbx5fvw6$gcTXN.nGIYPiJt4d9Gy57.
                                 <nav class="doc-sub-menu nav flex-column">
                                     <a class="nav-link scrollto" href="#autoremove-wordpress-block">Disable Autoremove</a>
                                     <a class="nav-link scrollto" href="#svg-wordpress-block">Upload SVG</a>
+                                    <a class="nav-link scrollto" href="#shortcode-wordpress-block">Custom Shortcode</a>
+                                    <a class="nav-link scrollto" href="#widget-wordpress-block">Custom Widget</a>
+                                    <a class="nav-link scrollto" href="#area-wordpress-block">Custom Widget Area</a>
                                 </nav>
                                 <a class="nav-link scrollto" href="#wrike-section">Wrike API</a>
                                 <nav class="doc-sub-menu nav flex-column">
@@ -300,6 +503,10 @@ test:$apr1$gbx5fvw6$gcTXN.nGIYPiJt4d9Gy57.
         </div><!-- end doc-wrapper -->
     </div><!-- end page-wrapper -->
 
+    <!-- TO TOP BUTTON -->
+    <a id="to_top_button"></a>
+    <!-- END TO TOP BUTTON -->
+
     <!--  FOOTER  --> 
     <footer class="footer">
         <div class="container text-center">
@@ -316,5 +523,8 @@ test:$apr1$gbx5fvw6$gcTXN.nGIYPiJt4d9Gy57.
     <script type="text/javascript" src="plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>     
     <script type="text/javascript" src="plugins/stickyfill/dist/stickyfill.min.js"></script>                                                                
     <script type="text/javascript" src="js/main.js"></script>
+
+    <!-- My Javascript -->
+    <script type="text/javascript" src="../theme-default-assets/js/app.js"></script>
 </body>
 </html>

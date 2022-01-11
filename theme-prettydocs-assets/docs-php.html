@@ -53,13 +53,6 @@
                     <li class="breadcrumb-item"><a href="../docs.html">Home</a></li>
                     <li class="breadcrumb-item active">PHP Docs</li>
                 </ol>
-                
-                <!-- <div class="top-search-box">
-	                 <form class="form-inline search-form justify-content-center" action="" method="get">
-			            <input type="text" placeholder="Search..." name="search" class="form-control search-input">
-			            <button type="submit" class="btn search-btn" value="Search"><i class="fas fa-search"></i></button>
-			        </form>
-                </div> -->
             </div>
         </header>
         <!--  END HEADER  -->
@@ -68,7 +61,7 @@
             <div class="container">
                 <div id="doc-header" class="doc-header text-center">
                     <h1 class="doc-title"><i class="icon fa fab fa-php"></i> PHP Docs</h1>
-                    <div class="meta"><i class="far fa-clock"></i> Last updated: Dic 14th, 2021</div>
+                    <div class="meta"><i class="far fa-clock"></i> Last updated: Jan 20th, 2022</div>
                 </div>
                 <div class="doc-body row">
                     <div class="doc-content col-md-9 col-12 order-1">
@@ -464,13 +457,13 @@ try {
     // Content
     $mail-&#x3E;isHTML(true);   // Set email format to HTML
     $mail-&#x3E;Subject = &#x27;Here is the subject&#x27;;
-    $mail-&#x3E;Body    = &#x27;This is the HTML message body &#x3C;b&#x3E;in bold!&#x3C;/b&#x3E;&#x27;;
+    $mail-&#x3E;Body = &#x27;This is the HTML message body &#x3C;b&#x3E;in bold!&#x3C;/b&#x3E;&#x27;;
     $mail-&#x3E;AltBody = &#x27;This is the body in plain text for non-HTML mail clients&#x27;;
 
     $mail-&#x3E;send();
     echo &#x27;Message has been sent&#x27;;
 } catch (Exception $e) {
-    echo &#x22;Message could not be sent. Mailer Error: {$mail-&#x3E;ErrorInfo}&#x22;;
+    echo &#x27;Message could not be sent. Mailer Error: {$mail-&#x3E;ErrorInfo}&#x27;;
 }
                                     </code></pre>
                                 </div>
@@ -488,6 +481,124 @@ try {
                                 </div>
                             </section>
                             <!-- End Absolute Path -->
+
+                            <!-- Manipulate JSON -->
+                            <section id="json-php-section" class="doc-section">
+                                <h2 class="section-title">Manipulate JSON</h2>
+                                <div class="section-block">
+                                    <p>
+                                        JSON is the string notation of JavaScript object. It takes up simple to complex forms and stores data as (key, value) pairs.<br>
+                                        This is the example of a json file:
+                                        <pre><code class="language-json display-contents">
+[
+    {
+        &#x22;Code&#x22;: &#x22;1&#x22;,
+        &#x22;Name&#x22;: &#x22;June Zupers&#x22;,
+        &#x22;Sports&#x22;: &#x22;Base Ball&#x22;
+    },
+    {
+        &#x22;Code&#x22;: &#x22;2&#x22;,
+        &#x22;Name&#x22;: &#x22;Fred Cortez&#x22;,
+        &#x22;Sports&#x22;: &#x22;Soccer&#x22;
+    },
+    {
+        &#x22;Code&#x22;: &#x22;3&#x22;,
+        &#x22;Name&#x22;: &#x22;Kevin Burks&#x22;,
+        &#x22;Sports&#x22;: &#x22;Tennis&#x22;
+    }
+]
+                                        </code></pre>
+                                    </p>
+                                    <h5 style="margin-top:37px;">Read JSON File in PHP</h5>
+                                    <p>
+                                        To read json file with php, you must first get the json data stored in the file, decode json and finally parse through the array or object.<br>
+                                        For that you'll need two php functions - one is <i>file_get_contents()</i> and the other is <i>json_decode()</i>.
+                                    </p>
+                                    <pre><code class="language-php display-contents">
+// load file
+$data = file_get_contents(&#x27;results.json&#x27;);
+
+// decode json to associative array
+$json_arr = json_decode($data, true);
+
+foreach ($json_arr as $key =&#x3E; $value) {
+    echo $json_arr[$key] . &#x22; - &#x22; . $json_arr[$value] . &#x22;&#x3C;br/&#x3E;&#x22;;
+}
+                                    </code></pre>
+                                    <p>If you know the specific key name, then you can simply access it like this:</p>
+                                    <pre><code class="language-php display-contents">
+echo $json_arr[0][&#x27;Code&#x27;];
+                                    </code></pre>
+                                    <p><b>Note</b>: The function json_decode() decodes the given json string into an array or object. For example the statement json_decode($data, true); in above code will return associative array. You can ignore the second parameter 'true' to make it return as an object.</p>
+                                    <h5 style="margin-top:37px;">Add to JSON File in PHP</h5>
+                                    <p>To add additional records to json file you have to simply append it to the end of file. Here let's see an example for adding new data. The following php snippet takes up a json file, decode it, add extra records and again encode to json and save it into a new file.</p>
+                                    <pre><code class="language-php display-contents">
+// read json file
+$data = file_get_contents(&#x27;results.json&#x27;);
+
+// decode json
+$json_arr = json_decode($data, true);
+
+// add data
+$json_arr[] = array(&#x27;Code&#x27;=&#x3E;4, &#x27;Name&#x27;=&#x3E;&#x27;Jeff Darwin&#x27;, &#x27;Sports&#x27;=&#x3E;&#x27;Cricket&#x27;);
+
+// encode json and save to file
+file_put_contents(&#x27;results_new.json&#x27;, json_encode($json_arr));
+                                    </code></pre>
+                                    <h5 style="margin-top:37px;">Update JSON File in PHP</h5>
+                                    <p>As for updating json file you can either modify single value or in bulk. Here's an example for modifying value for a specific json attribute.</p>
+                                    <pre><code class="language-php display-contents">
+// read file
+$data = file_get_contents(&#x27;results.json&#x27;);
+
+// decode json to array
+$json_arr = json_decode($data, true);
+
+foreach ($json_arr as $key =&#x3E; $value) {
+    if ($value[&#x27;Code&#x27;] == &#x27;2&#x27;) {
+        $json_arr[$key][&#x27;Sports&#x27;] = &#x22;Foot Ball&#x22;;
+    }
+}
+
+// encode array to json and save to file
+file_put_contents(&#x27;results_new.json&#x27;, json_encode($json_arr));
+                                    </code></pre>
+                                    <h5 style="margin-top:37px;">Delete JSON Data from File in PHP</h5>
+                                    <p>JSON deletion is little complex since it is easy to mess up doing the process. You must be clear what you need to delete first, a specific key pair from all rows or a complete row.</p>
+                                    <pre><code class="language-php display-contents">
+// read json file
+$data = file_get_contents(&#x27;results.json&#x27;);
+
+// decode json to associative array
+$json_arr = json_decode($data, true);
+
+// get array index to delete
+$arr_index = array();
+foreach ($json_arr as $key =&#x3E; $value) {
+    if ($value[&#x27;Code&#x27;] == &#x22;2&#x22;) {
+        $arr_index[] = $key;
+    }
+}
+
+// delete data
+foreach ($arr_index as $i) {
+    unset($json_arr[$i]);
+}
+
+// rebase array
+$json_arr = array_values($json_arr);
+
+// encode array to json and save to file
+file_put_contents(&#x27;results_new.json&#x27;, json_encode($json_arr));
+                                    </code></pre>
+                                    <p>
+                                        The deletion script uses two foreach loops. The first one is for determining the array index we need to delete from json.<br>
+                                        And the second is what actually deletes from array using <i>unset()</i> function.<br>
+                                        Finally it rebases the array, encode it to json and store it in a new file.
+                                    </p>
+                                </div>
+                            </section>
+                            <!-- End Manipulate JSON -->
                         </div>
                     </div>
 
@@ -505,6 +616,7 @@ try {
                                 <a class="nav-link scrollto" href="#fpdf-section">FPDF Library</a>
                                 <a class="nav-link scrollto" href="#mailer-section">PHPMailer Library</a>
                                 <a class="nav-link scrollto" href="#path-section">Absolute Path</a>
+                                <a class="nav-link scrollto" href="#json-php-section">Manipulate JSON</a>
                             </nav>
                         </div>
                     </div>
@@ -514,6 +626,10 @@ try {
             </div><!-- end container -->
         </div><!-- end doc-wrapper -->
     </div><!-- end page-wrapper -->
+
+    <!-- TO TOP BUTTON -->
+    <a id="to_top_button"></a>
+    <!-- END TO TOP BUTTON -->
 
     <!--  FOOTER  --> 
     <footer class="footer">
@@ -531,5 +647,8 @@ try {
     <script type="text/javascript" src="plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>     
     <script type="text/javascript" src="plugins/stickyfill/dist/stickyfill.min.js"></script>                                                                
     <script type="text/javascript" src="js/main.js"></script>
+
+    <!-- My Javascript -->
+    <script type="text/javascript" src="../theme-default-assets/js/app.js"></script>
 </body>
 </html>

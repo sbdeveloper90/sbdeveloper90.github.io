@@ -53,13 +53,6 @@
                     <li class="breadcrumb-item"><a href="../docs.html">Home</a></li>
                     <li class="breadcrumb-item active">JAVASCRIPT Docs</li>
                 </ol>
-                
-                <!-- <div class="top-search-box">
-	                 <form class="form-inline search-form justify-content-center" action="" method="get">
-			            <input type="text" placeholder="Search..." name="search" class="form-control search-input">
-			            <button type="submit" class="btn search-btn" value="Search"><i class="fas fa-search"></i></button>
-			        </form>
-                </div> -->
             </div>
         </header>
         <!--  END HEADER  -->
@@ -68,7 +61,7 @@
             <div class="container">
                 <div id="doc-header" class="doc-header text-center">
                     <h1 class="doc-title"><i class="icon fa fab fa-js-square"></i> JAVASCRIPT Docs</h1>
-                    <div class="meta"><i class="far fa-clock"></i> Last updated: Dic 14th, 2021</div>
+                    <div class="meta"><i class="far fa-clock"></i> Last updated: Jan 20th, 2022</div>
                 </div>
                 <div class="doc-body row">
                     <div class="doc-content col-md-9 col-12 order-1">
@@ -246,7 +239,7 @@ function ipLookUp() {
             console.log(&#x22;User\&#x27;s  Country&#x22;, response.country);
         },
         function fail(data, status) {
-            cnsole.log(&#x22;Request failed. Return status of &#x22;, status);
+            console.log(&#x22;Request failed. Return status of &#x22;, status);
         }
     );
 }
@@ -256,6 +249,204 @@ ipLookUp();
                                 </div>
                             </section>
                             <!-- End User-Agent Localization -->
+
+                            <!-- Web Component -->
+                            <section id="web-component-section" class="doc-section">
+                                <h2 class="section-title">Web Component</h2>
+                                <div class="section-block">
+                                    <p>Web Components are a set of features that provide a standard component model for the Web[1] allowing for encapsulation and interoperability of individual HTML elements.</p>
+                                    <h5 style="margin-top:37px;">Create a custom element</h5>
+                                    <p>We begin to create the basic structure of our component by creating a <i>rating.js</i> file and inserting the following javascript code inside:</p>
+                                    <pre><code class="language-javascript display-contents">
+class MyRating extends HTMLElement {
+    constructor() {
+        super();
+    }
+    connectedCallback() {
+        this.innerText = &#x22;Here I am!&#x22;;
+    }
+}
+customElements.define(&#x22;my-rating&#x22;, MyRating);
+                                    </code></pre>
+                                    <p>This code allows us to lay the foundation in the creation of what is called a custom element, that is a custom HTML element.<br>A fundamental requirement for the name to be assigned to a custom element to be valid is that it contains a hyphen inside it, as in our example.</p>
+                                    <p>The following is a list of expected reactions for a component:</p>
+                                    <ul style="margin-left:5%;">
+                                        <li><b>contructor()</b>: While this is not a real custom element reaction, it is important to understand that its code is executed when an instance of the component is created; at this stage it is possible to make state initializations or event handler assignments; however, it is not possible to refer to the DOM</li>
+                                        <li style="margin-top:11px;"><b>connectedCallback()</b>: This method is invoked whenever an instance of the component is inserted into the DOM; setup operations such as changing the DOM can be performed at this stage</li>
+                                        <li style="margin-top:11px;"><b>disconnectedCallback()</b>: The method is invoked when the component is removed from the DOM</li>
+                                        <li style="margin-top:11px;"><b>attributeChangedCallback()</b>: It is executed when an attribute associated with the component is modified; only observed attributes generate the invocation of this method</li>
+                                        <li style="margin-top:11px;"><b>adoptedCallback()</b>: This method is invoked when the element is adopted from another document via the <i>document.adoptNode()</i> method</li>
+                                    </ul>
+                                    <p>Once the component is defined, we can use it in an HTML page as shown by the following example:</p>
+                                    <pre><code class="language-markup display-contents">
+&#x3C;!DOCTYPE html&#x3E;
+&#x3C;html&#x3E;
+    &#x3C;head&#x3E;
+        &#x3C;script src=&#x22;rating.js&#x22;&#x3E;&#x3C;/script&#x3E;
+    &#x3C;/head&#x3E;
+    &#x3C;body&#x3E;
+        &#x3C;my-rating&#x3E;&#x3C;/my-rating&#x3E;
+    &#x3C;/body&#x3E;
+&#x3C;/html&#x3E;
+                                    </code></pre>
+                                    <p>In the body of the page we used our component as a normal HTML element.<br>We point out that it is not possible to use the notation for empty elements for custom elements.</p>
+                                    <h5 style="margin-top:37px;">Adding Markup and CSS</h5>
+                                    <p>
+                                        Once we have introduced the basic principles on which the definition of a custom element rests, we begin to build the structure of our component by defining its markup and CSS.<br>
+                                        we structure our component in such a way as to expose properties that can be manipulated from the outside, through standard <i>getter</i> and <i>setter</i> of javascript class, as shown below:
+                                    </p>
+                                    <pre><code class="language-javascript display-contents">
+const styleRules = &#x60;
+.rating {
+    color: orange;
+}&#x60;;
+
+class MyRating extends HTMLElement {
+    constructor() {
+        super();
+        this._maxValue = 5;
+        this._value = 0;
+        this.attachShadow({mode: &#x22;open&#x22;});
+    }
+
+    connectedCallback() {
+        this.createComponent()
+    }
+
+    get maxValue() {
+        return this._maxValue;
+    }
+    set maxValue(val) {
+        this._maxValue = val;
+        this.setAttribute(&#x22;max-value&#x22;, val);
+    }
+
+    get value() {
+        return this._value;
+    }
+    set value(val) {
+        this._value = val;
+        this.setAttribute(&#x22;value&#x22;, val);
+    }
+
+    static get observedAttributes() {
+        return [&#x22;max-value&#x22;, &#x22;value&#x22;];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue !== newValue) {
+            switch (name) {
+                case &#x22;max-value&#x22;:
+                    this._maxValue = newValue;
+                    break;
+                case &#x22;value&#x22;:
+                    this._value = newValue;
+                    break;
+            }
+            this.replaceStarList();
+        }
+    }
+
+    replaceStarList() {
+        let starNode = this.shadowRoot.children[1];
+        if (starNode) {
+            let starList = this.createStarList();
+            starNode.remove();
+            this.shadowRoot.appendChild(starList);
+        }
+    }
+
+    createComponent() {
+        let style = document.createElement(&#x22;style&#x22;);
+        style.appendChild(document.createTextNode(styleRules));
+        this.shadowRoot.appendChild(style);
+        let starList = this.createStarList();
+        this.appendChild(starList);
+    }
+
+    createStarList() {
+        let div = document.createElement(&#x22;div&#x22;);
+        let star;
+        for (let i = 1; i &#x3C;= this.maxValue; i++) {
+            if (i &#x3C;= this.value) {
+                star = this.createStar(&#x22;&#x26;#x2605;&#x22;); 
+                div.appendChild(span);
+            }
+            else {
+                star = this.createStar(&#x22;&#x26;#x2606;&#x22;);
+            }
+            div.appendChild(star);
+        }
+        return div;
+    }
+
+    createStar(starCode) {
+        let span = document.createElement(&#x22;span&#x22;);
+        span.setAttribute(&#x22;class&#x22;, &#x22;rating&#x22;);
+        span.innerHTML = starCode;
+        return span;
+    }
+}
+
+customElements.define(&#x22;my-rating&#x22;, MyRating);
+                                    </code></pre>
+                                    <p>With these changes, the initialization code of our component, will have the expected effect, that is, it will make sure that a total of six stars are displayed, two of which are internally colored:</p>
+                                    <pre><code class="language-markup display-contents">
+&#x3C;html&#x3E;
+    &#x3C;head&#x3E;
+        ...
+        &#x3C;script&#x3E;
+                        window.onload = function() {
+                            let myRatingComponent = document.getElementById(&#x22;myRatingComponent&#x22;);
+                            myRatingComponent.maxValue = 6;
+                            myRatingComponent.value = 2;
+                        }
+                &#x3C;/script&#x3E;
+    &#x3C;/head&#x3E;
+    &#x3C;body&#x3E;
+        ...
+    &#x3C;/body&#x3E;
+&#x3C;/html&#x3E;
+                                    </code></pre>
+                                    <p>Or:</p>
+                                    <pre><code class="language-markup display-contents">
+&#x3C;my-rating id=&#x22;myRatingComponent&#x22; max-value=&#x22;6&#x22; value=&#x22;2&#x22;&#x3E;&#x3C;/my-rating&#x3E;
+                                    </code></pre>
+                                    <h5 style="margin-top:37px;">Manage events</h5>
+                                    <p>
+                                        To make our component really useful, let's try to add a little interactivity. We will ensure that the user can express his rating by clicking on one of the stars displayed.<br>
+                                        To achieve this, simply change the <i>createStar()</i> function and <i>createStarList()</i> function code as shown below:
+                                    </p>
+                                    <pre><code class="language-javascript display-contents">
+createStar(starCode, index) {
+    let span = document.createElement(&#x22;span&#x22;); 
+    span.setAttribute(&#x22;class&#x22;, &#x22;rating&#x22;); 
+    span.addEventListener(&#x22;click&#x22;, () =&#x3E; {
+        this.setAttribute(&#x22;value&#x22;, index);
+    });
+    span.innerHTML = starCode;
+    return span;
+}
+                                    </code></pre>
+                                    <pre><code class="language-javascript display-contents">
+createStarList() {
+    let div = document.createElement(&#x22;div&#x22;);
+    let star;
+    for (let i = 1; i &#x3C;= this.maxValue; i++) {
+        if (i &#x3C;= this.value) {
+            star = this.createStar(&#x22;&#x26;#x2605;&#x22;, i); 
+            div.appendChild(span);
+        } else {
+            star = this.createStar(&#x22;&#x26;#x2606;&#x22;, i);
+        }
+        div.appendChild(star);
+    }
+    return div;
+}
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Web Component -->
                         </div>
                     </div>
 
@@ -270,6 +461,7 @@ ipLookUp();
                                 <a class="nav-link scrollto" href="#array-table-section">Array to Table</a>
                                 <a class="nav-link scrollto" href="#ready-load-section">Ready vs Load</a>
                                 <a class="nav-link scrollto" href="#user-localization-section">User-Agent Localization</a>
+                                <a class="nav-link scrollto" href="#web-component-section">Web Component</a>
                             </nav>
                         </div>
                     </div>
@@ -279,6 +471,10 @@ ipLookUp();
             </div><!-- end container -->
         </div><!-- end doc-wrapper -->
     </div><!-- end page-wrapper -->
+
+    <!-- TO TOP BUTTON -->
+    <a id="to_top_button"></a>
+    <!-- END TO TOP BUTTON -->
 
     <!--  FOOTER  --> 
     <footer class="footer">
@@ -296,5 +492,8 @@ ipLookUp();
     <script type="text/javascript" src="plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>     
     <script type="text/javascript" src="plugins/stickyfill/dist/stickyfill.min.js"></script>                                                                
     <script type="text/javascript" src="js/main.js"></script>
+
+    <!-- My Javascript -->
+    <script type="text/javascript" src="../theme-default-assets/js/app.js"></script>
 </body>
 </html>

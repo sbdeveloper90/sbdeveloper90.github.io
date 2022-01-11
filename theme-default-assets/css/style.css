@@ -15,6 +15,44 @@
     font-family: 'Lato', sans-serif;
 }
 
+/*** STYLE FOT TO TOP BUTTON ***/
+#to_top_button{
+    display: inline-block;
+    background-color: #3aa7aa;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 4px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    transition: background-color .3s, opacity .5s, visibility .5s;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+}
+#to_top_button::after {
+    content: '\021E7';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 2em;
+    line-height: 50px;
+    color: #fff;
+  }
+  #to_top_button:hover {
+    cursor: pointer;
+    text-decoration: none;
+    background-color: #333;
+  }
+  #to_top_button:active {
+    background-color: #555;
+  }
+  #to_top_button.show {
+    opacity: 1;
+    visibility: visible;
+  }
+/*** END STYLE FOT TO TOP BUTTON ***/
+
 /*** STYLE FOR FOOTER ***/
 footer.footer{
     min-height: 73px;

@@ -3,13 +3,6 @@ SBDeveloper90 GitHub Pages
 
 <br><br><br>
 
-## TODO
-- button to top
-- click on section title for copy link
-- button in code sections for copy code itself
-
-<br><br><br>
-
 ## Example code PrismJS block
 ```html
 <!-- Modal -->

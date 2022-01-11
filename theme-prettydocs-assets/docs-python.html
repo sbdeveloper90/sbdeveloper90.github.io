@@ -53,13 +53,6 @@
                     <li class="breadcrumb-item"><a href="../docs.html">Home</a></li>
                     <li class="breadcrumb-item active">PYTHON Docs</li>
                 </ol>
-                
-                <!-- <div class="top-search-box">
-	                 <form class="form-inline search-form justify-content-center" action="" method="get">
-			            <input type="text" placeholder="Search..." name="search" class="form-control search-input">
-			            <button type="submit" class="btn search-btn" value="Search"><i class="fas fa-search"></i></button>
-			        </form>
-                </div> -->
             </div>
         </header>
         <!--  END HEADER  -->
@@ -68,7 +61,7 @@
             <div class="container">
                 <div id="doc-header" class="doc-header text-center">
                     <h1 class="doc-title"><i class="icon fa fab fa-python"></i> PYTHON Docs</h1>
-                    <div class="meta"><i class="far fa-clock"></i> Last updated: Dic 14th, 2021</div>
+                    <div class="meta"><i class="far fa-clock"></i> Last updated: Jan 20th, 2022</div>
                 </div>
                 <div class="doc-body row">
                     <div class="doc-content col-md-9 col-12 order-1">
@@ -92,6 +85,89 @@
                             </section>
                             <!-- End PrismJS -->
                             
+                            <!-- Menu Options -->
+                            <section id="menu-options-section" class="doc-section">
+                                <h2 class="section-title">Menu Options</h2>
+                                <div class="section-block">
+                                    <p>Create simple menu options in python script, with three entries.</p>
+                                    <pre><code class="language-python display-contents">
+def menu():
+    print(&#x22;[1] First Entry&#x22;)
+    print(&#x22;[2] Second Entry&#x22;)
+    print(&#x22;[3] Third Entry&#x22;)
+    print(&#x22;[0] Exit&#x22;)
+
+menu()
+menu_option = int(input(&#x27;Select an option: &#x27;))
+
+while menu_option != 0:
+    if menu_option == 1:
+        # do stuff for first entry
+    elif menu_option == 2:
+        # do stuff for second entry
+    elif menu_option == 3:
+        # do stuff for third entry
+    else:
+        # selected wrong entry
+
+    print()
+    menu()
+    menu_option = int(input(&#x27;Select an option: &#x27;))
+
+print()
+print(&#x27;Script terminated.&#x27;)
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Menu Options -->
+
+                            <!-- Font Color & Style -->
+                            <section id="font-color-style-section" class="doc-section">
+                                <h2 class="section-title">Font Color & Style</h2>
+                                <div class="section-block">
+                                    <p>Customize font and style of printed text in python script.</p>
+                                    <pre><code class="language-python display-contents">
+### COLORS &#x26; STYLE DEFINITION ###
+class colors:
+    reset=&#x27;\033[0m&#x27;
+    bold=&#x27;\033[01m&#x27;
+    disable=&#x27;\033[02m&#x27;
+    underline=&#x27;\033[04m&#x27;
+    reverse=&#x27;\033[07m&#x27;
+    strikethrough=&#x27;\033[09m&#x27;
+    invisible=&#x27;\033[08m&#x27;
+    class fg:
+        black=&#x27;\033[30m&#x27;
+        red=&#x27;\033[31m&#x27;
+        green=&#x27;\033[32m&#x27;
+        orange=&#x27;\033[33m&#x27;
+        blue=&#x27;\033[34m&#x27;
+        purple=&#x27;\033[35m&#x27;
+        cyan=&#x27;\033[36m&#x27;
+        lightgrey=&#x27;\033[37m&#x27;
+        darkgrey=&#x27;\033[90m&#x27;
+        lightred=&#x27;\033[91m&#x27;
+        lightgreen=&#x27;\033[92m&#x27;
+        yellow=&#x27;\033[93m&#x27;
+        lightblue=&#x27;\033[94m&#x27;
+        pink=&#x27;\033[95m&#x27;
+        lightcyan=&#x27;\033[96m&#x27;
+    class bg:
+        black=&#x27;\033[40m&#x27;
+        red=&#x27;\033[41m&#x27;
+        green=&#x27;\033[42m&#x27;
+        orange=&#x27;\033[43m&#x27;
+        blue=&#x27;\033[44m&#x27;
+        purple=&#x27;\033[45m&#x27;
+        cyan=&#x27;\033[46m&#x27;
+        lightgrey=&#x27;\033[47m&#x27;
+
+# example
+print(f&#x22;{colors.bg.red}{colors.fg.orange}I&#x27;m a colored string{colors.reset}&#x22;)
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Font Color & Style -->
                         </div>
                     </div>
 
@@ -101,6 +177,8 @@
                             <nav id="doc-menu" class="nav doc-menu flex-column sticky">
                                 <a class="nav-link scrollto" href="#download-section">Download</a>
                                 <a class="nav-link scrollto" href="#prismjs-section">PrismJS</a>
+                                <a class="nav-link scrollto" href="#menu-options-section">Menu Options</a>
+                                <a class="nav-link scrollto" href="#font-color-style-section">Font Color & Style</a>
                             </nav>
                         </div>
                     </div>
@@ -110,6 +188,10 @@
             </div><!-- end container -->
         </div><!-- end doc-wrapper -->
     </div><!-- end page-wrapper -->
+
+    <!-- TO TOP BUTTON -->
+    <a id="to_top_button"></a>
+    <!-- END TO TOP BUTTON -->
 
     <!--  FOOTER  --> 
     <footer class="footer">
@@ -127,5 +209,8 @@
     <script type="text/javascript" src="plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>     
     <script type="text/javascript" src="plugins/stickyfill/dist/stickyfill.min.js"></script>                                                                
     <script type="text/javascript" src="js/main.js"></script>
+
+    <!-- My Javascript -->
+    <script type="text/javascript" src="../theme-default-assets/js/app.js"></script>
 </body>
 </html>
