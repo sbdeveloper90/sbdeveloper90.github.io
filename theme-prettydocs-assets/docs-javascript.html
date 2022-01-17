@@ -447,6 +447,237 @@ createStarList() {
                                 </div>
                             </section>
                             <!-- End Web Component -->
+
+                            <!-- Loader AJAX Call -->
+                            <section id="loader-ajax-section" class="doc-section">
+                                <h2 class="section-title">Loader AJAX Call</h2>
+                                <div class="section-block">
+                                    <p>Display Loading Image or loader when AJAX call is in Progress.</p>
+                                    <h5>Syntax</h5>
+                                    <pre><code class="language-javascript display-contents">
+$.ajax({
+    ...
+    beforeSend: function(){
+        /* Statement */
+    }
+    ...
+});
+complete
+                                    </code></pre>
+                                    <p>This executes when AJAX request is finished whether it successfully callback or not.</p>
+                                    <h5 style="margin-top:37px;">Example</h5>
+                                    <pre><code class="language-markup display-contents">
+&#x3C;script type=&#x27;text/javascript&#x27;&#x3E;
+$(document).ready(function(){
+    
+    $(&#x22;#but_search&#x22;).click(function(){
+        var search = $(&#x27;#search&#x27;).val();
+
+        $.ajax({
+            url: &#x27;fetch_deta.php&#x27;,
+            type: &#x27;post&#x27;,
+            data: {search:search},
+            beforeSend: function(){
+                /* Show image container */
+                $(&#x22;#loader&#x22;).show();
+            },
+            success: function(response){
+                $(&#x27;.response&#x27;).empty();
+                $(&#x27;.response&#x27;).append(response);
+            },
+            complete:function(data){
+                /* Hide image container */
+                $(&#x22;#loader&#x22;).hide();
+            }
+        });
+    });
+});
+&#x3C;/script&#x3E;
+
+&#x3C;input type=&#x27;text&#x27; id=&#x27;search&#x27;&#x3E;
+&#x3C;input type=&#x27;button&#x27; id=&#x27;but_search&#x27; value=&#x27;Search&#x27;&#x3E;&#x3C;br/&#x3E;
+
+&#x3C;!-- Image loader --&#x3E;
+&#x3C;div id=&#x27;loader&#x27; style=&#x27;display: none;&#x27;&#x3E;
+    &#x3C;img src=&#x27;reload.gif&#x27; width=&#x27;32px&#x27; height=&#x27;32px&#x27;&#x3E;
+&#x3C;/div&#x3E;
+&#x3C;!-- Image loader --&#x3E;
+
+&#x3C;div class=&#x27;response&#x27;&#x3E;&#x3C;/div&#x3E;
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Loader AJAX Call -->
+
+                            <!-- Image Comparison Slider -->
+                            <section id="image-comparison-section" class="doc-section">
+                                <h2 class="section-title">Image Comparison Slider</h2>
+                                <div class="section-block">
+                                    <p>Move the slider to compare images.</p>
+                                    <h5>HTML</h5>
+                                    <pre><code class="language-markup display-contents">
+&#x3C;!DOCTYPE html&#x3E;
+&#x3C;html&#x3E;
+    &#x3C;head&#x3E;
+        &#x3C;meta name=&#x22;viewport&#x22; content=&#x22;width=device-width, initial-scale=1.0&#x22;&#x3E;
+    &#x3C;/head&#x3E;
+    &#x3C;body&#x3E;
+        &#x3C;h1&#x3E;Compare Two Images&#x3C;/h1&#x3E;
+
+        &#x3C;p&#x3E;Click and slide the blue slider to compare two images:&#x3C;/p&#x3E;
+
+        &#x3C;div class=&#x22;img-comp-container&#x22;&#x3E;
+            &#x3C;div class=&#x22;img-comp-img&#x22;&#x3E;
+                &#x3C;img src=&#x22;img_snow.jpg&#x22; width=&#x22;300&#x22; height=&#x22;200&#x22;&#x3E;
+            &#x3C;/div&#x3E;
+            &#x3C;div class=&#x22;img-comp-img img-comp-overlay&#x22;&#x3E;
+                &#x3C;img src=&#x22;img_forest.jpg&#x22; width=&#x22;300&#x22; height=&#x22;200&#x22;&#x3E;
+            &#x3C;/div&#x3E;
+        &#x3C;/div&#x3E;
+
+        &#x3C;script&#x3E;
+                        /* Execute a function that will execute an image compare function for each element with the img-comp-overlay class: */
+                        initComparisons();
+                &#x3C;/script&#x3E;
+
+    &#x3C;/body&#x3E;
+&#x3C;/html&#x3E;
+                                    </code></pre>
+                                    <h5 style="margin-top:37px;">CSS</h5>
+                                    <pre><code class="language-css display-contents">
+* {
+    box-sizing: border-box;
+}
+
+.img-comp-container {
+    position: relative;
+    height: 200px; /* should be the same height as the images */
+}
+
+.img-comp-img {
+    position: absolute;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+}
+
+.img-comp-img img {
+    display: block;
+    vertical-align: middle;
+}
+
+.img-comp-slider {
+    position: absolute;
+    z-index: 9;
+    cursor: ew-resize;
+    /* set the appearance of the slider: */
+    width: 40px;
+    height: 40px;
+    background-color: #2196F3;
+    opacity: 0.7;
+    border-radius: 50%;
+}
+                                    </code></pre>
+                                    <h5 style="margin-top:37px;">Javascript</h5>
+                                    <pre><code class="language-javascript display-contents">
+function initComparisons() {
+    var x, i;
+    /* find all elements with an &#x22;overlay&#x22; class: */
+    x = document.getElementsByClassName(&#x22;img-comp-overlay&#x22;);
+    for (i = 0; i &#x3C; x.length; i++) {
+        /* once for each &#x22;overlay&#x22; element: pass the &#x22;overlay&#x22; element as a parameter when executing the compareImages function: */
+        compareImages(x[i]);
+    }
+    function compareImages(img) {
+        var slider, img, clicked = 0, w, h;
+        
+        /* get the width and height of the img element */
+        w = img.offsetWidth;
+        h = img.offsetHeight;
+        
+        /* set the width of the img element to 50%: */
+        img.style.width = (w / 2) + &#x22;px&#x22;;
+        
+        /* create slider: */
+        slider = document.createElement(&#x22;DIV&#x22;);
+        slider.setAttribute(&#x22;class&#x22;, &#x22;img-comp-slider&#x22;);
+        
+        /* insert slider */
+        img.parentElement.insertBefore(slider, img);
+        
+        /* position the slider in the middle: */
+        slider.style.top = (h / 2) - (slider.offsetHeight / 2) + &#x22;px&#x22;;
+        slider.style.left = (w / 2) - (slider.offsetWidth / 2) + &#x22;px&#x22;;
+        
+        /* execute a function when the mouse button is pressed: */
+        slider.addEventListener(&#x22;mousedown&#x22;, slideReady);
+        
+        /* and another function when the mouse button is released: */
+        window.addEventListener(&#x22;mouseup&#x22;, slideFinish);
+        
+        /* or touched (for touch screens: */
+        slider.addEventListener(&#x22;touchstart&#x22;, slideReady);
+        
+        /* and released (for touch screens: */
+        window.addEventListener(&#x22;touchend&#x22;, slideFinish);
+        function slideReady(e) {
+            /* prevent any other actions that may occur when moving over the image: */
+            e.preventDefault();
+            
+            /* the slider is now clicked and ready to move: */
+            clicked = 1;
+            
+            /* execute a function when the slider is moved: */
+            window.addEventListener(&#x22;mousemove&#x22;, slideMove);
+            window.addEventListener(&#x22;touchmove&#x22;, slideMove);
+        }
+        function slideFinish() {
+            /* the slider is no longer clicked: */
+            clicked = 0;
+        }
+        function slideMove(e) {
+            var pos;
+            
+            /* if the slider is no longer clicked, exit this function: */
+            if (clicked == 0) return false;
+            
+            /* get the cursor&#x27;s x position: */
+            pos = getCursorPos(e)
+            
+            /* prevent the slider from being positioned outside the image: */
+            if (pos &#x3C; 0) pos = 0;
+            if (pos &#x3E; w) pos = w;
+            
+            /* execute a function that will resize the overlay image according to the cursor: */
+            slide(pos);
+        }
+        function getCursorPos(e) {
+            var a, x = 0;
+            e = (e.changedTouches) ? e.changedTouches[0] : e;
+            
+            /* get the x positions of the image: */
+            a = img.getBoundingClientRect();
+            
+            /* calculate the cursor&#x27;s x coordinate, relative to the image: */
+            x = e.pageX - a.left;
+            
+            /* consider any page scrolling: */
+            x = x - window.pageXOffset;
+            return x;
+        }
+        function slide(x) {
+            /* resize the image: */
+            img.style.width = x + &#x22;px&#x22;;
+            
+            /* position the slider: */
+            slider.style.left = img.offsetWidth - (slider.offsetWidth / 2) + &#x22;px&#x22;;
+        }
+    }
+}
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End Image Comparison Slider -->
                         </div>
                     </div>
 
@@ -462,6 +693,8 @@ createStarList() {
                                 <a class="nav-link scrollto" href="#ready-load-section">Ready vs Load</a>
                                 <a class="nav-link scrollto" href="#user-localization-section">User-Agent Localization</a>
                                 <a class="nav-link scrollto" href="#web-component-section">Web Component</a>
+                                <a class="nav-link scrollto" href="#loader-ajax-section">Loader AJAX Call</a>
+                                <a class="nav-link scrollto" href="#image-comparison-section">Image Comparison Slider</a>
                             </nav>
                         </div>
                     </div>

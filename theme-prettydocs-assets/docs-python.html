@@ -168,6 +168,131 @@ print(f&#x22;{colors.bg.red}{colors.fg.orange}I&#x27;m a colored string{colors.r
                                 </div>
                             </section>
                             <!-- End Font Color & Style -->
+
+                            <!-- IP Scanner -->
+                            <section id="ip-scanner-section" class="doc-section">
+                                <h2 class="section-title">IP Scanner</h2>
+                                <div class="section-block">
+                                    <p>Simple scripts that scans lan network IPs.</p>
+                                    <h5>Version One (Unix only)</h5>
+                                    <pre><code class="language-python display-contents">
+import scapy.all as scapy
+
+
+def scan(ip):
+    arp_req_frame = scapy.ARP(pdst = ip)
+
+    broadcast_ether_frame = scapy.Ether(dst = &#x22;ff:ff:ff:ff:ff:ff&#x22;)
+    
+    broadcast_ether_arp_req_frame = broadcast_ether_frame / arp_req_frame
+
+    answered_list = scapy.srp(broadcast_ether_arp_req_frame, timeout = 1, verbose = False)[0]
+    result = []
+    for i in range(0,len(answered_list)):
+        client_dict = {&#x22;ip&#x22; : answered_list[i][1].psrc, &#x22;mac&#x22; : answered_list[i][1].hwsrc}
+        result.append(client_dict)
+
+    return result
+
+def display_result(result):
+    print(&#x22;-----------------------------------\nIP Address\tMAC Address\n-----------------------------------&#x22;)
+    for i in result:
+        print(&#x22;{}\t{}&#x22;.format(i[&#x22;ip&#x22;], i[&#x22;mac&#x22;]))
+
+
+target = input(&#x22;Enter Target IP Address/Adresses: &#x22;)
+scanned_output = scan(target)
+display_result(scanned_output)
+                                    </code></pre>
+                                    <h5 style="margin-top:37px;">Version Two (Unix)</h5>
+                                    <pre><code class="language-python display-contents">
+import subprocess
+import re
+
+
+def Get_Host(x):
+    Dot_Counter = 0
+    Pos_Counter = 0
+    for i in x:
+        if i == &#x22;.&#x22;:
+            Dot_Counter += 1
+        if Dot_Counter == 3:
+            return (x[0:Pos_Counter + 1], x[Pos_Counter + 1: ])
+            break
+        Pos_Counter += 1
+
+
+First_ip = input(&#x22;Enter the first IP Address: &#x22;)
+Last_ip = input(&#x22;Enter the last IP Address: &#x22;)
+
+Network, First_Host = Get_Host(First_ip)
+Network, Last_Host = Get_Host(Last_ip)
+
+Empty_String = &#x22;&#x22;
+Counter = 0
+
+for i in range(int(First_Host), int(Last_Host) + 1):
+    Process = subprocess.getoutput(&#x22;ping -c 1 &#x22; + Network + str(i))
+    Empty_String += Process
+
+    String_Needed = re.compile(r&#x22;ttl=&#x22;)
+    mo = String_Needed.search(Empty_String)
+    try:
+        if mo.group() == &#x22;ttl=&#x22;:
+            print(&#x22;Host &#x22; + Network + str(i) + &#x22; is UP&#x22;)
+    except:
+        print(&#x22;Host &#x22; + Network + str(i) + &#x22; is Down&#x22;)
+    
+    Empty_String = &#x22;&#x22;
+
+print(&#x22;Completed&#x22;)
+                                    </code></pre>
+                                    <h5 style="margin-top:37px;">Version Two (Windows)</h5>
+                                    <pre><code class="language-python display-contents">
+import subprocess
+import re
+
+
+def Get_Host(x):
+    Dot_Counter = 0
+    Pos_Counter = 0
+    for i in x:
+        if i == &#x22;.&#x22;:
+            Dot_Counter += 1
+        if Dot_Counter == 3:
+            return (x[0:Pos_Counter + 1], x[Pos_Counter + 1: ])
+            break
+        Pos_Counter += 1
+
+
+First_ip = input(&#x22;Enter the first IP Address: &#x22;)
+Last_ip = input(&#x22;Enter the last IP Address: &#x22;)
+
+Network, First_Host = Get_Host(First_ip)
+Network, Last_Host = Get_Host(Last_ip)
+
+Empty_String = &#x22;&#x22;
+Counter = 0
+
+for i in range(int(First_Host), int(Last_Host) + 1):
+    Process = subprocess.getoutput(&#x22;ping -n 1 &#x22; + Network + str(i))
+    Empty_String += Process
+
+    String_Needed = re.compile(r&#x22;TTL=&#x22;)
+    mo = String_Needed.search(Empty_String)
+    try:
+        if mo.group() == &#x22;ttl=&#x22;:
+            print(&#x22;Host &#x22; + Network + str(i) + &#x22; is UP&#x22;)
+    except:
+        print(&#x22;Host &#x22; + Network + str(i) + &#x22; is Down&#x22;)
+    
+    Empty_String = &#x22;&#x22;
+
+print(&#x22;Completed&#x22;)
+                                    </code></pre>
+                                </div>
+                            </section>
+                            <!-- End IP Scanner -->
                         </div>
                     </div>
 
@@ -179,6 +304,7 @@ print(f&#x22;{colors.bg.red}{colors.fg.orange}I&#x27;m a colored string{colors.r
                                 <a class="nav-link scrollto" href="#prismjs-section">PrismJS</a>
                                 <a class="nav-link scrollto" href="#menu-options-section">Menu Options</a>
                                 <a class="nav-link scrollto" href="#font-color-style-section">Font Color & Style</a>
+                                <a class="nav-link scrollto" href="#ip-scanner-section">IP Scanner</a>
                             </nav>
                         </div>
                     </div>
