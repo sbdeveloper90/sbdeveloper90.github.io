@@ -2,11 +2,11 @@
 <html lang="it-IT">
 <head>
     <!-- Google Tag Manager -->
-    <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-M37236S');</script> -->
+    })(window,document,'script','dataLayer','GTM-M37236S');</script>
     <!-- End Google Tag Manager -->
 
 
@@ -22,11 +22,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <!-- iubenda Banner -->
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
     var _iub = _iub || [];
     _iub.csConfiguration = {"askConsentAtCookiePolicyUpdate":true,"floatingPreferencesButtonDisplay":"bottom-right","perPurposeConsent":true,"siteId":3032352,"whitelabel":false,"cookiePolicyId":37726910,"lang":"it","cookiePolicyUrl":"https://www.iubenda.com/privacy-policy/37726910", "banner":{ "acceptButtonDisplay":true,"closeButtonRejects":true,"customizeButtonDisplay":true,"explicitWithdrawal":true,"listPurposes":true,"position":"float-top-center" }};
     </script>
-    <script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script> -->
+    <script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
     
     <style>
         :root{
@@ -117,12 +117,26 @@
         #main_wrapper .btn a{
             vertical-align: middle;
         }
+
+        #main_wrapper #social_wrapper{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 33px;
+            margin-top: 50px;
+        }
+        #main_wrapper #social_wrapper .icon-img-link{
+            vertical-align: middle;
+            width: 32px;
+            height: 32px;
+        }
     </style>
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M37236S"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M37236S"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     
 
@@ -136,33 +150,23 @@
 
     <main id="main_wrapper">
         <button class="btn">
-            <img src="qrcode-imgs/icon-facebook.svg" alt="Facebook Logo" class="icon-img">
-            <a href="https://www.facebook.com/sebastiano.bruni/" target="_blank">Facebook</a>
+            <img src="qrcode-imgs/icon-website.svg" alt="Website Logo" class="icon-img">
+            <a href="https://sbdeveloper.cloud" target="_blank">Website</a>
         </button>
 
         <button class="btn">
-            <img src="qrcode-imgs/icon-instagram.svg" alt="Instagram Logo" class="icon-img">
-            <a href="https://www.instagram.com/seby90oreo/" target="_blank">Instagram</a>
+            <img src="qrcode-imgs/icon-website.svg" alt="Website Logo" class="icon-img">
+            <a href="https://sbdeveloper90.github.io/" target="_blank">Portfolio</a>
         </button>
 
         <button class="btn">
-            <img src="qrcode-imgs/icon-linkedin.svg" alt="Linkedin Logo" class="icon-img">
-            <a href="https://www.linkedin.com/in/sebastiano-bruni-b1a90b175/" target="_blank">Linkedin</a>
+            <img src="qrcode-imgs/icon-website.svg" alt="Website Logo" class="icon-img">
+            <a href="https://sbdeveloper90.github.io/docs.html" target="_blank">Pretty Docs</a>
         </button>
 
         <button class="btn">
-            <img src="qrcode-imgs/icon-gmail.svg" alt="Gmail Logo" class="icon-img">
-            <a href="mailto:parabolika.developer@gmail.com" target="_blank">Gmail</a>
-        </button>
-
-        <button class="btn">
-            <img src="qrcode-imgs/icon-youtube.svg" alt="YouTube Logo" class="icon-img">
-            <a href="https://www.youtube.com/channel/UC-_P8DjB99qBE121vPHSXnA" target="_blank">YouTube</a>
-        </button>
-
-        <button class="btn disabled">
-            <img src="qrcode-imgs/icon-whatsapp.svg" alt="Whatsapp Logo" class="icon-img">
-            <a href="#" target="_blank">Whatsapp</a>
+            <img src="qrcode-imgs/icon-website.svg" alt="Website Logo" class="icon-img">
+            <a href="https://sbdeveloper90.github.io/spline-design-portfolio/" target="_blank">Spline Portfolio</a>
         </button>
 
         <button class="btn">
@@ -170,30 +174,23 @@
             <a href="mailto:info@sbdeveloper.cloud" target="_blank">Mail</a>
         </button>
 
-        <button class="btn disabled">
-            <img src="qrcode-imgs/icon-dropbox.svg" alt="Dropbox Logo" class="icon-img">
-            <a href="#" target="_blank">Dropbox</a>
-        </button>
+        <div id="social_wrapper">
+            <a href="https://www.facebook.com/sebastiano.bruni/" target="_blank">
+                <img src="qrcode-imgs/icon-facebook.svg" alt="Facebook Logo" class="icon-img-link">
+            </a>
 
-        <button class="btn">
-            <img src="qrcode-imgs/icon-vimeo.svg" alt="Vimeo Logo" class="icon-img">
-            <a href="https://vimeo.com/user11563568" target="_blank">Vimeo</a>
-        </button>
+            <a href="https://www.instagram.com/seby90oreo/" target="_blank">
+                <img src="qrcode-imgs/icon-instagram.svg" alt="Instagram Logo" class="icon-img-link">
+            </a>
 
-        <button class="btn disabled">
-            <img src="qrcode-imgs/icon-twitter.svg" alt="Twitter Logo" class="icon-img">
-            <a href="#" target="_blank">Twitter</a>
-        </button>
+            <a href="https://www.linkedin.com/in/sebastiano-bruni-b1a90b175/" target="_blank">
+                <img src="qrcode-imgs/icon-linkedin.svg" alt="Linkedin Logo" class="icon-img-link">
+            </a>
 
-        <button class="btn">
-            <img src="qrcode-imgs/icon-github.svg" alt="GitHub Logo" class="icon-img">
-            <a href="https://github.com/sbdeveloper90/" target="_blank">GitHub</a>
-        </button>
-
-        <button class="btn">
-            <img src="qrcode-imgs/icon-website.svg" alt="Website Logo" class="icon-img">
-            <a href="https://sbdeveloper.cloud" target="_blank">Website</a>
-        </button>
+            <a href="https://github.com/sbdeveloper90/" target="_blank">
+                <img src="qrcode-imgs/icon-github.svg" alt="GitHub Logo" class="icon-img-link">
+            </a>
+        </div>
     </main>
 
     <script type="text/javascript">
