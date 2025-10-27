@@ -1,7 +1,6 @@
 "use strict";
 
-const parse = require("github-calendar-parser")
-    , $ = require("elly")
+const $ = require("elly")
     , addSubtractDate = require("add-subtract-date")
     , formatoid = require("formatoid")
 
@@ -20,7 +19,7 @@ function addTooltips(container) {
     container.appendChild(tooltip)
 
     // Add mouse event listener to show & hide tooltip
-    const days = container.querySelectorAll("rect.day")
+    const days = container.querySelectorAll(".js-calendar-graph-svg rect.ContributionCalendar-day")
     days.forEach(day => {
         day.addEventListener("mouseenter", (e) => {
             let contribCount = e.target.getAttribute("data-count")
@@ -114,13 +113,20 @@ module.exports = function GitHubCalendar (container, username, options) {
         $(".position-relative h2", cal).remove()
         //cal.querySelector(".float-left.text-gray").innerHTML = options.summary_text
 
+        // Remove 3d visualiser div
+        for (const a of div.querySelectorAll("a")) {
+            if (a.textContent.includes("View your contributions in 3D, VR and IRL!")) {
+                a.parentElement.remove()
+            }
+        }
+
         // If 'include-fragment' with spinner img loads instead of the svg, fetchCalendar again
         if (cal.querySelector("include-fragment")) {
             setTimeout(fetchCalendar, 500)
         } else {
             // If options includes responsive, SVG element has to be manipulated to be made responsive
             if (options.responsive === true) {
-                let svg = cal.querySelector("svg.js-calendar-graph-svg")
+                let svg = cal.querySelector("table.js-calendar-graph-table")
                 // Get the width/height properties and use them to create the viewBox
                 let width = svg.getAttribute("width")
                 let height = svg.getAttribute("height")
@@ -133,35 +139,136 @@ module.exports = function GitHubCalendar (container, username, options) {
             }
 
             if (options.global_stats !== false) {
-                let parsed = parse($("svg", cal).outerHTML)
-                  , currentStreakInfo = parsed.current_streak
-                                      ? `${formatoid(parsed.current_streak_range[0], DATE_FORMAT2)} &ndash; ${formatoid(parsed.current_streak_range[1], DATE_FORMAT2)}`
-                                      : parsed.last_contributed
-                                      ? `Last contributed in ${formatoid(parsed.last_contributed, DATE_FORMAT2)}.`
-                                      : "Rock - Hard Place"
-                  , longestStreakInfo = parsed.longest_streak
-                                      ? `${formatoid(parsed.longest_streak_range[0], DATE_FORMAT2)} &ndash; ${formatoid(parsed.longest_streak_range[1], DATE_FORMAT2)}`
-                                      : parsed.last_contributed
-                                      ? `Last contributed in ${formatoid(parsed.last_contributed, DATE_FORMAT2)}.`
-                                      : "Rock - Hard Place"
-                  , firstCol = $("<div>", {
-                        "class": "contrib-column contrib-column-first table-column"
-                      , html: `<span class="text-muted">Contributions in the last year</span>
-                               <span class="contrib-number">${parsed.last_year} total</span>
-                               <span class="text-muted">${formatoid(addSubtractDate.add(addSubtractDate.subtract(new Date(), 1, "year"), 1, "day"), DATE_FORMAT1)} &ndash; ${formatoid(new Date(), DATE_FORMAT1)}</span>`
+                // Compute stats purely from DOM tooltip text (new GitHub layout, which launched March 2024 and is currently used in Oct 2025)
+                let parsed = null
+                try {
+                    const nodes = Array.from(cal.querySelectorAll('.ContributionCalendar-day'))
+                    const domDays = nodes.map(d => {
+                        const dateAttr = d.getAttribute && d.getAttribute('data-date')
+                        const date = dateAttr ? new Date(dateAttr) : null
+                        let count = 0
+                        const id = d.getAttribute && d.getAttribute('id')
+                        let tip = null
+                        if (id) tip = cal.querySelector(`tool-tip[for="${id}"], [for="${id}"]`)
+                        if (!tip) tip = d.nextElementSibling
+                        if (!tip && d.parentElement) tip = d.parentElement.querySelector('tool-tip, .tool-tip, [data-tooltip]')
+                        if (tip && tip.textContent) {
+                            const m = tip.textContent.match(/(No|[0-9]+) contribution/i)
+                            if (m) count = (m[1].toLowerCase() === 'no') ? 0 : Number(m[1])
+                        }
+                        return { date: date, count: Number(count || 0) }
                     })
-                  , secondCol = $("<div>", {
+
+                    const computed = {
+                        last_year: domDays.reduce((s, x) => s + x.count, 0),
+                        longest_streak: 0,
+                        longest_streak_range: [],
+                        current_streak: 0,
+                        current_streak_range: [],
+                        longest_break: -1,
+                        longest_break_range: [],
+                        current_break: 0,
+                        current_break_range: [],
+                        weeks: [],
+                        days: [],
+                        last_contributed: null
+                    }
+
+                    // compute streaks
+                    let curStreak = 0, curStreakStart = null
+                    let curBreak = 0, curBreakStart = null
+                    let longestStreak = 0, longestStreakRange = [null, null]
+                    let longestBreak = -1, longestBreakRange = [null, null]
+
+                    domDays.sort((a, b) => a.date - b.date)
+                    for (const d of domDays) {
+                        const dayObj = { fill: null, date: d.date, count: d.count }
+                        if (d.count > 0) {
+                            computed.last_contributed = d.date
+                        }
+                        if (d.count > 0) {
+                            if (curStreak === 0) curStreakStart = d.date
+                            curStreak++
+                            if (curBreak > longestBreak) {
+                                longestBreak = curBreak
+                                longestBreakRange = [curBreakStart, d.date]
+                            }
+                            curBreak = 0
+                            curBreakStart = null
+                        } else {
+                            if (curStreak > longestStreak) {
+                                longestStreak = curStreak
+                                longestStreakRange = [curStreakStart, new Date(d.date)]
+                            }
+                            curStreak = 0
+                            curStreakStart = null
+                            if (curBreak === 0) curBreakStart = d.date
+                            curBreak++
+                        }
+                        computed.days.push(dayObj)
+                    }
+
+                    if (curStreak > longestStreak) {
+                        longestStreak = curStreak
+                        longestStreakRange = [curStreakStart, computed.last_contributed]
+                    }
+                    if (curBreak > longestBreak) {
+                        longestBreak = curBreak
+                        longestBreakRange = [curBreakStart, computed.last_contributed]
+                    }
+
+                    computed.current_streak = curStreak
+                    computed.current_streak_range = curStreak === 0 ? [] : [curStreakStart, computed.last_contributed]
+                    computed.longest_streak = longestStreak
+                    computed.longest_streak_range = longestStreak > 0 ? longestStreakRange : []
+                    computed.longest_break = longestBreak
+                    computed.longest_break_range = longestBreak > -1 ? longestBreakRange : []
+
+                    // simple weeks grouping
+                    let week = []
+                    for (const d of computed.days) {
+                        week.push(d)
+                        if (week.length === 7) { computed.weeks.push(week); week = [] }
+                    }
+                    if (week.length) computed.weeks.push(week)
+
+                    parsed = computed
+                } catch (err) {
+                    console.error('github-calendar: error computing stats from DOM', err)
+                }
+
+                let currentStreakInfo = parsed.current_streak
+                    ? `${formatoid(parsed.current_streak_range[0], DATE_FORMAT2)} &ndash; ${formatoid(parsed.current_streak_range[1], DATE_FORMAT2)}`
+                    : parsed.last_contributed
+                    ? `Last contributed in ${formatoid(parsed.last_contributed, DATE_FORMAT2)}.`
+                    : "Rock - Hard Place"
+
+                let longestStreakInfo = parsed.longest_streak
+                    ? `${formatoid(parsed.longest_streak_range[0], DATE_FORMAT2)} &ndash; ${formatoid(parsed.longest_streak_range[1], DATE_FORMAT2)}`
+                    : parsed.last_contributed
+                    ? `Last contributed in ${formatoid(parsed.last_contributed, DATE_FORMAT2)}.`
+                    : "Rock - Hard Place"
+
+                let firstCol = $("<div>", {
+                    "class": "contrib-column contrib-column-first table-column"
+                    , html: `<span class="text-muted">Contributions in the last year</span>
+                            <span class="contrib-number">${parsed.last_year} total</span>
+                            <span class="text-muted">${formatoid(addSubtractDate.add(addSubtractDate.subtract(new Date(), 1, "year"), 1, "day"), DATE_FORMAT1)} &ndash; ${formatoid(new Date(), DATE_FORMAT1)}</span>`
+                })
+
+                let secondCol = $("<div>", {
                         "class": "contrib-column table-column"
                       , html: `<span class="text-muted">Longest streak</span>
                                <span class="contrib-number">${printDayCount(parsed.longest_streak)}</span>
                                <span class="text-muted">${longestStreakInfo}</span>`
-                    })
-                  , thirdCol = $("<div>", {
+                })
+
+                let thirdCol = $("<div>", {
                         "class": "contrib-column table-column"
                       , html: `<span class="text-muted">Current streak</span>
                                <span class="contrib-number">${printDayCount(parsed.current_streak)}</span>
                                <span class="text-muted">${currentStreakInfo}</span>`
-                    })
+                })
 
                 cal.appendChild(firstCol)
                 cal.appendChild(secondCol)

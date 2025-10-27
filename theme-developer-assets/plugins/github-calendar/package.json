@@ -1,6 +1,6 @@
 {
   "name": "github-calendar",
-  "version": "2.2.7",
+  "version": "2.3.4",
   "description": "Embed your GitHub contributions calendar anywhere.",
   "main": "lib/index.js",
   "directories": {
@@ -26,7 +26,9 @@
     "Francesco Tonini <francescoantoniotonini@gmail.com> (https://francescotonini.it)",
     "Miroslav Vidovic <miroslav-vidovic@hotmail.com>",
     "Mike Roibu <mike@codingden.net>",
-    "Rohit Rathi <rathirohitg1997@gmail.com> (https://rathirohit.github.io)"
+    "Rohit Rathi <rathirohitg1997@gmail.com> (https://rathirohit.github.io)",
+    "Wang Pengfei <pengfeixc@sina.com> (https://pengfeixc.com)",
+    "Laura Randant <199846460+SlinkyRand@users.noreply.github.com> (https://github.com/SlinkyRand)"
   ],
   "license": "MIT",
   "bugs": {
@@ -36,8 +38,7 @@
   "dependencies": {
     "add-subtract-date": "^1.0.15",
     "elly": "^1.1.11",
-    "formatoid": "^1.2.4",
-    "github-calendar-parser": "^1.1.13"
+    "formatoid": "^1.2.4"
   },
   "blah": {
     "example": [
@@ -111,7 +112,6 @@
         "gh.js",
         "ghcal",
         "sort-github-user-repos",
-        "github-calendar-parser",
         "gh-notifier",
         "octimatch",
         "github-portfolio",
